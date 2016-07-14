@@ -7,6 +7,11 @@ use Zend\Diactoros\ServerRequestFactory;
 
 class HttpMessageServiceProvider extends AbstractServiceProvider
 {
+    /**
+     * Pointers to the Container for what this service provider provides
+     *
+     * @var array
+     */
     protected $provides = [
         'Zend\Diactoros\Response',
         'Zend\Diactoros\Response\SapiEmitter',

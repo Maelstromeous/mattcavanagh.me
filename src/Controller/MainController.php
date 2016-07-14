@@ -2,14 +2,14 @@
 
 namespace Mattcavanagh\Portfolio\Controller;
 
-use Mattcavanagh\Portfolio\Contract\ConfigAwareInterface;
-use Mattcavanagh\Portfolio\Contract\ConfigAwareTrait;
+use Mattcavanagh\Portfolio\Contract\TemplateAwareInterface;
+use Mattcavanagh\Portfolio\Contract\TemplateAwareTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class MainController implements ConfigAwareInterface
+class MainController implements TemplateAwareInterface
 {
-    use ConfigAwareTrait;
+    use TemplateAwareTrait;
 
     /**
      * Hello world!
@@ -19,27 +19,10 @@ class MainController implements ConfigAwareInterface
      *
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function helloWorld(ServerRequestInterface $request, ResponseInterface $response)
-    {
-        $config = $this->getConfig();
-
-        $response->getBody()->write(
-            $config['base_url']
-        );
-    }
-
-    /**
-     * Route that ensures .htaccess and overall routing is working
-     *
-     * @param  Psr\Http\Message\ServerRequestInterface $request
-     * @param  Psr\Http\Message\ResponseInterface      $response
-     *
-     * @return Psr\Http\Message\ResponseInterface
-     */
-    public function testRoute(ServerRequestInterface $request, ResponseInterface $response)
+    public function index(ServerRequestInterface $request, ResponseInterface $response)
     {
         $response->getBody()->write(
-            'It\'s working!'
+            $this->getTemplateDriver()->render('landing.html')
         );
     }
 }
