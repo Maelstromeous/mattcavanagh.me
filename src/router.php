@@ -9,5 +9,6 @@ $router = new RouteCollection(
 );
 
 $router->get('/', 'Mattcavanagh\Portfolio\Controller\MainController::index');
+$router->get('/portfolio', 'Mattcavanagh\Portfolio\Controller\MainController::portfolio');
 
 return $router;

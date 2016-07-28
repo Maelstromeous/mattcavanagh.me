@@ -25,4 +25,19 @@ class MainController implements TemplateAwareInterface
             $this->getTemplateDriver()->render('landing.twig')
         );
     }
+
+    /**
+     * Portfolio page.
+     *
+     * @param  Psr\Http\Message\ServerRequestInterface $request
+     * @param  Psr\Http\Message\ResponseInterface      $response
+     *
+     * @return Psr\Http\Message\ResponseInterface
+     */
+    public function portfolio(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $response->getBody()->write(
+            $this->getTemplateDriver()->render('portfolio/index.twig')
+        );
+    }
 }
