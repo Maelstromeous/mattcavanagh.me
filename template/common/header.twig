@@ -1,3 +1,31 @@
 <header id="header">
-    blah
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button"
+                        class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#navigation"
+                        aria-expanded="false">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ base_url }}">Matt&rsquo;s corner of the web</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navigation">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ base_url }}/portfolio">Portfolio</a>
+                    </li>
+                    <li>
+                        <a href="{{ base_url }}/cv">Online CV</a>
+                    </li>
+                    <li>
+                        <a href="{{ base_url }}/contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
