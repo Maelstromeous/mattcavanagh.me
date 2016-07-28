@@ -1,3 +1,23 @@
 #header {
     margin-bottom: @spacing-base;
+
+    .navbar-nav,
+    .navbar-brand {
+        font-weight: bold;
+    }
+
+    .navbar-nav:not(.navbar-right) {
+        li {
+            transition: background-color 0.2s ease-in;
+            &:hover {
+                background-color: #e8e7e7;
+            }
+        }
+    }
+
+    .navbar-right {
+        a {
+            padding: 10px;
+        }
+    }
 }
