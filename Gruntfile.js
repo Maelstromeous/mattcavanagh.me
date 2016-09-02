@@ -4,23 +4,25 @@ module.exports = function(grunt) {
         less: {
             development: {
                 files: {
-                    'public/assets/css/compiled/main.css' : 'public/assets/less/main.less'
+                    'public/assets/compiled/main.css' : 'public/assets/less/main.less'
                 }
             }
         },
         concat: {
             css: {
                 src: [
-                    'public/assets/css/compiled/main.css',
+                    'bower_components/bootsrap/dist/css/bootstrap.min.css',
+                    'bower_components/font-awesome/css/font-awesome.min.css',
+                    'public/assets/compiled/main.css',
                 ],
-                dest: 'public/assets/css/main.min.css'
+                dest: 'public/assets/dist/main.min.css'
             },
             js: {
                 src: [
-                    'public/bower_components/jquery/dist/jquery.min.js',
-                    'public/bower_components/bootstrap/dist/js/bootstrap.min.js'
+                    'bower_components/jquery/dist/jquery.min.js',
+                    'bower_components/bootstrap/dist/js/bootstrap.min.js'
                 ],
-                dest: 'public/assets/js/main.min.js'
+                dest: 'public/assets/dist/main.min.js'
             }
         },
         watch: {
@@ -28,7 +30,16 @@ module.exports = function(grunt) {
                 files: ['public/assets/less/**/*.less'],
                 tasks: ['css'],
                 options: {
-                    nospawn: true
+                    nospawn: true,
+                    atBegin: true
+                }
+            },
+            js: {
+                files: ['public/assets/js/**/*.js'],
+                tasks: ['js'],
+                options: {
+                    nospawn: true,
+                    atBegin: true
                 }
             }
         }
@@ -45,6 +56,9 @@ module.exports = function(grunt) {
     grunt.registerTask('css', [
         'less',
         'concat:css',
+        'concat:js'
+    ]);
+    grunt.registerTask('js', [
         'concat:js'
     ]);
 };
