@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         concat: {
             css: {
                 src: [
-                    'bower_components/bootsrap/dist/css/bootstrap.min.css',
+                    'bower_components/bootstrap/dist/css/bootstrap.min.css',
                     'bower_components/font-awesome/css/font-awesome.min.css',
                     'public/assets/compiled/main.css',
                 ],
@@ -50,13 +50,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', [
-        'css'
+        'css',
+        'js'
     ]);
 
     grunt.registerTask('css', [
         'less',
-        'concat:css',
-        'concat:js'
+        'concat:css'
     ]);
     grunt.registerTask('js', [
         'concat:js'

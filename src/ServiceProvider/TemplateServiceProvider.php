@@ -25,7 +25,7 @@ class TemplateServiceProvider extends AbstractServiceProvider
         $config = $this->getContainer()->get('config');
         $globals = [
             'base_url'    => $config['base_url'],
-            'asset_url'   => $config['base_url'] . '/assets',
+            'asset_url'   => $config['asset_url'],
             'environment' => $config['environment']
         ];
 

@@ -19,6 +19,8 @@
         <meta property="og:description" content="{{ description }}">
         <meta property="og:type" content="website">
         <link rel="icon" href="{{ asset_url }}/img/favicon.ico">
+        <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/master/devicon.min.css">
+
         {% block meta %}{% endblock %}
 
         <link rel="stylesheet" href="{{ asset_url }}/dist/main.min.css">
@@ -33,5 +35,8 @@
         {% block body %}{% endblock %}
         <script src="{{ asset_url }}/dist/main.min.js"></script>
         {% block scripts %}{% endblock %}
+        <script>
+            $('[data-toggle="tooltip"]').tooltip();
+        </script>
     </body>
 </html>

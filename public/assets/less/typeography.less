@@ -1,0 +1,63 @@
+@import 'variables.less';
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    margin: @spacing-base 0;
+}
+
+h1 {
+    font-size: 3.0em;
+    @media screen {
+        @media (max-width: 767px) {
+            font-size: 2.5em;
+        }
+        @media (max-width: 320px) {
+            font-size: 2em;
+        }
+    }
+}
+
+h2 {
+    font-size: 2.25em;
+    @media screen {
+        @media (max-width: 767px) {
+            font-size: 2em;
+        }
+        @media (max-width: 320px) {
+            font-size: 1.625em;
+        }
+    }
+}
+
+h3 {
+    font-size: 1.75em;
+    @media screen {
+        @media (max-width: 767px) {
+            font-size: 1.5em;
+        }
+        @media (max-width: 320px) {
+            font-size: 1.375em;
+        }
+    }
+}
+
+p {
+    font-size: 1.125em;
+}
+
+p.caption {
+    color: #b3b2b2;
+    font-size: 0.9em;
+    margin: (@spacing-base / 2) 0;
+}
