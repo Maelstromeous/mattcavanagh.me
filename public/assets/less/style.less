@@ -1,3 +1,66 @@
 body {
     background-color: @bg-color;
+    font-family: 'Open Sans', sans-serif;
+    color: @color;
+
+    #main {
+        .container {
+            padding: @spacing-base;
+        }
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+    color: @color;
+    transition: color 0.25s;
+    &:hover {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+.content {
+    background-color: #fff;
+    padding: @spacing-base;
+    box-shadow: 0 0 10px #e8e8e8;
+    border-radius: 3px;
+    border: 1px solid #e2e2e2;
+}
+
+.row {
+    margin-bottom: @spacing-base * 2;
+}
+
+.double-row {
+    margin-left: -(@spacing-base * 2);
+    margin-right: -(@spacing-base * 2);
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.card {
+    .content; // #MixinsAreAwesome
+    padding: 0;
+    padding-bottom: @spacing-base;
+    transition: all 0.2s ease-in;
+
+    .card-content {
+        padding: 0 (@spacing-base);
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px #b5b5b5;
+        border: 1px solid #ababab;
+    }
 }
