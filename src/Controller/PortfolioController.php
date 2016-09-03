@@ -14,7 +14,7 @@ class PortfolioController implements TemplateAwareInterface
     public function index(ServerRequestInterface $request, ResponseInterface $response)
     {
         $response->getBody()->write(
-            $this->getTemplateDriver()->render('portfolio/index.twig')
+            $this->getTemplateDriver()->render('portfolio/index/index.twig')
         );
     }
 

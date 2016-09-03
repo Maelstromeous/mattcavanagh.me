@@ -19,7 +19,7 @@
         <meta property="og:description" content="{{ description }}">
         <meta property="og:type" content="website">
         <link rel="icon" href="{{ asset_url }}/img/favicon.ico">
-        <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/master/devicon.min.css">
+        {% block stylesheets %}{% endblock %}
 
         {% block meta %}{% endblock %}
 
@@ -37,6 +37,10 @@
         {% block scripts %}{% endblock %}
         <script>
             $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="tab"]').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show');
+            });
         </script>
     </body>
 </html>

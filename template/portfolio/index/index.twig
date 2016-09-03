@@ -1,0 +1,58 @@
+{% extends 'template.twig' %}
+
+{% block title %}Portfolio{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/master/devicon.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+{% endblock %}
+
+{% block body %}
+<section id="portfolio-index">
+    <div class="col-xs-12">
+        <div class="row no-margin">
+            <h1 class="text-center">My Portfolio</h1>
+            <p class="text-center">
+                Below you'll find all of my current work, projects I&rsquo;m happy that reflect my skills as a web developer. There&rsquo;s a mixture of work, personal and community projects, briefly listing what technologies I&rsquo;ve used, completion dates and links to each.
+            </p>
+            <div id="technologies" class="text-center tech-icons">
+                <div>
+                    <i class="devicon-php-plain" data-toggle="tooltip" title="PHP 7"></i>
+                    <i class="devicon-javascript-plain" data-toggle="tooltip" title="JavaScript"></i>
+                    <i class="devicon-nginx-plain" data-toggle="tooltip" title="NGINX Webserver"></i>
+                    <i class="devicon-git-plain" data-toggle="tooltip" title="Git"></i>
+                    <i class="devicon-github-plain" data-toggle="tooltip" title="GitHub"></i>
+                    <i class="devicon-ubuntu-plain" data-toggle="tooltip" title="Ubuntu 16.04+"></i>
+                    <i class="devicon-atom-plain" data-toggle="tooltip" title="Atom"></i>
+                </div>
+                <p class="caption text-center">
+                    Common Technologies
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs centered-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal Projects</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#work" aria-controls="work" role="tab" data-toggle="tab">Work Projects</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="personal">
+                {% include 'portfolio/index/personal.twig' %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="work">
+                {% include 'portfolio/index/work.twig' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
