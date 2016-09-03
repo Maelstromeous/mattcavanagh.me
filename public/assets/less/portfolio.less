@@ -4,4 +4,23 @@
     .section-title {
         margin-bottom: @spacing-base * 2;
     }
+
+    .card {
+        h3 {
+            margin-bottom: 0;
+        }
+
+        .example-link {
+            display: block;
+            text-align: center;
+            font-size: 1.3em;
+            color: #337ab7;
+            margin: (@spacing-base / 2) 0;
+
+            &:hover {
+                color: darken(#337ab7, 20%);
+                text-decoration: underline;
+            }
+        }
+    }
 }
