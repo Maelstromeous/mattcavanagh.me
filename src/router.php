@@ -12,5 +12,6 @@ $router->get('/', 'Mattcavanagh\Portfolio\Controller\MainController::index');
 $router->get('/portfolio', 'Mattcavanagh\Portfolio\Controller\PortfolioController::index');
 $router->get('/portfolio/ps2alerts', 'Mattcavanagh\Portfolio\Controller\PortfolioController::ps2alerts');
 $router->get('/portfolio/timefortea', 'Mattcavanagh\Portfolio\Controller\PortfolioController::timefortea');
+$router->get('/portfolio/nanitesystemscomics', 'Mattcavanagh\Portfolio\Controller\PortfolioController::nanitesystemscomics');
 
 return $router;
