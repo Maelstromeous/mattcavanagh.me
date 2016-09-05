@@ -32,7 +32,7 @@ class TemplateServiceProvider extends AbstractServiceProvider
         $this->getContainer()->share('Twig_Environment', function () use ($globals, $config) {
             $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../template');
             $twig   = new Twig_Environment($loader, [
-                'cache' => $config['environment'] === 'production' ? _DIR_ . '/../../cache' : false,
+                'cache' => $config['environment'] === 'production' ? __DIR__ . '/../../cache' : false,
                 'debug' => $config['environment'] === 'production' ? false : true
             ]);
 
