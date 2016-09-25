@@ -36,6 +36,9 @@
             <div class="col-xs-12">
                 <ul class="nav nav-tabs centered-tabs" role="tablist">
                     <li role="presentation" class="active">
+                        <a href="#featured" aria-controls="featured" role="tab" data-toggle="tab">Featured Projects <i class="fa fa-star" data-toggle="tooltip" title="Projects I consider to be my best work."></i></a>
+                    </li>
+                    <li role="presentation">
                         <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal Projects</a>
                     </li>
                     <li role="presentation">
@@ -46,7 +49,10 @@
         </div>
 
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="personal">
+            <div role="tabpanel" class="tab-pane active" id="featured">
+                {% include 'portfolio/index/featured.twig' %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="personal">
                 {% include 'portfolio/index/personal.twig' %}
             </div>
             <div role="tabpanel" class="tab-pane" id="work">
