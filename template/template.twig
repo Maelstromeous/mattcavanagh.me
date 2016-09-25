@@ -35,12 +35,6 @@
         {% block body %}{% endblock %}
         <script src="{{ asset_url }}/dist/main.min.js"></script>
         {% block scripts %}{% endblock %}
-        <script>
-            $('[data-toggle="tooltip"]').tooltip();
-            $('[data-toggle="tab"]').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show');
-            });
-        </script>
+
     </body>
 </html>
