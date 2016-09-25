@@ -1,11 +1,11 @@
 body {
     background-color: @bg-color;
     color: @color;
-    margin-bottom: @spacing-base;
+    margin-bottom: @spacing;
 
     #main {
         .container {
-            padding: @spacing-base;
+            padding: @spacing;
         }
     }
 }
@@ -20,28 +20,28 @@ a {
 }
 
 hr {
-    margin: (@spacing-base * 2) 0;
+    margin: (@spacing * 2) 0;
 }
 
 hr.half {
-    margin: @spacing-base 0;
+    margin: @spacing 0;
 }
 
 .content {
     background-color: #fff;
-    padding: @spacing-base;
+    padding: @spacing;
     box-shadow: 0 0 10px #e8e8e8;
     border-radius: 3px;
     border: 1px solid @border-color;
 }
 
 .row {
-    margin-bottom: @spacing-base * 2;
+    margin-bottom: @spacing * 2;
 }
 
 .double-row {
-    margin-left: -(@spacing-base * 2);
-    margin-right: -(@spacing-base * 2);
+    margin-left: -(@spacing * 2);
+    margin-right: -(@spacing * 2);
 }
 
 .no-padding {
@@ -51,12 +51,12 @@ hr.half {
 .card {
     .content; // #MixinsAreAwesome
     padding: 0;
-    padding-bottom: @spacing-base;
+    padding-bottom: @spacing;
     transition: all 0.2s ease-in;
     font-size: 0.9em;
 
     .card-content {
-        padding: 0 (@spacing-base);
+        padding: 0 (@spacing);
         p {
             margin: 0;
         }
@@ -69,14 +69,14 @@ hr.half {
 
     .card-footer {
         border-top: 1px solid @border-color;
-        padding: @spacing-base;
+        padding: @spacing;
         padding-bottom: 0;
-        margin-top: @spacing-base;
+        margin-top: @spacing;
     }
 
     @media screen {
         @media (max-width: @breakpoint-xs) {
-            margin-bottom: @spacing-base;
+            margin-bottom: @spacing;
         }
     }
 }
@@ -89,8 +89,8 @@ hr.half {
 
     img {
         vertical-align: top;
-        width: 32px;
-        height: 32px;
+        width: 35px;
+        height: 35px;
     }
 }
 
@@ -109,4 +109,15 @@ hr.half {
         display: inline-block;
         float: none;
     }
+}
+
+.social-links {
+    a {
+        margin: 0 @spacing / 3;
+        text-decoration: none;
+    }
+}
+
+.tab-content {
+    margin-bottom: @spacing * 2;
 }
