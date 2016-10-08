@@ -25,14 +25,14 @@ class TemplateServiceProvider extends AbstractServiceProvider
         $config = $this->getContainer()->get('config');
         $globals = [
             'base_url'    => $config['base_url'],
-            'asset_url'   => $config['base_url'] . '/assets',
+            'asset_url'   => $config['asset_url'],
             'environment' => $config['environment']
         ];
 
         $this->getContainer()->share('Twig_Environment', function () use ($globals, $config) {
             $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../template');
             $twig   = new Twig_Environment($loader, [
-                'cache' => $config['environment'] === 'production' ? true : false,
+                'cache' => $config['environment'] === 'production' ? __DIR__ . '/../../cache' : false,
                 'debug' => $config['environment'] === 'production' ? false : true
             ]);
 

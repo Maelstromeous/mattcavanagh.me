@@ -32,6 +32,8 @@ class HttpMessageServiceProvider extends AbstractServiceProvider
 
             if ($config['environment'] === 'development') {
                 $_SERVER['REQUEST_URI'] = str_replace('/mattcavanagh/public', '', $_SERVER['REQUEST_URI']);
+            } else {
+                $_SERVER['REQUEST_URI'] = '/';
             }
 
             return ServerRequestFactory::fromGlobals();

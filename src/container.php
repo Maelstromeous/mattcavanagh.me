@@ -14,5 +14,6 @@ $container->inflector(Mattcavanagh\Portfolio\Contract\TemplateAwareInterface::cl
           ->invokeMethod('setTemplateDriver', ['Twig_Environment']);
 
 $container->add(Mattcavanagh\Portfolio\Controller\MainController::class);
+$container->add(Mattcavanagh\Portfolio\Controller\PortfolioController::class);
 
 return $container;
