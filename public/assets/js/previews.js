@@ -1,34 +1,44 @@
 $('.preview').hover(function() {
-    handleHover($(this), 'down');
+    handleHover($(this).find('.card-image'), 'down');
 }, function() {
-    handleHover($(this), 'up');
+    handleHover($(this).find('.card-image'), 'up');
 });
 
 function handleHover(el, direction) {
-    console.log(el);
     var img = $(el).find('img').first();
     var top = $(img).css('top');
-    var preview = $(el).height();
-    var scroll = $(img).height() - preview;
+    var scroll = $(img).height() - $(el).height();
+    var progress = $(img).css('top');
 
-    console.log(img);
+    if (direction === 'up') {
+        scroll = 0;
+    }
 
-    console.log('scroll', scroll);
+    var remaining = scroll + parseInt(progress);
+
+    var pixelsPerSec = 100;
+    var time = Math.abs(remaining / 100 * 500);
+    var ease = '';
+
+    if (direction === 'up') {
+        time = time / 2;
+    }
+
+    /*console.log('scroll', scroll);
+    console.log('progress', progress);
+    console.log('remaining', remaining);*/
+    console.log('time', time);
 
     if (direction === 'down') {
-        console.log('down');
         $(img).stop(false, false).animate({
             top: -Math.abs(scroll)
-        }, 3500, function() {
-            console.log('done');
+        }, time, 'easeInOutSine', function() {
         });
     }
     if (direction === 'up') {
-        console.log('up');
         $(img).stop(false, false).animate({
             top: 0
-        }, 1000, function() {
-            console.log('done');
+        }, time / 2, 'easeOutSine', function() {
         });
     }
 }
