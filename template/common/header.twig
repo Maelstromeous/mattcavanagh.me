@@ -11,13 +11,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li {% if current_path == '/portfolio' %}class="active"{% endif %}>
                         <a href="{{ base_url }}/portfolio">Portfolio</a>
                     </li>
-                    <li>
+                    <li {% if current_path == '/contact' %}class="active"{% endif %}>
                         <a href="{{ base_url }}/contact">Contact me!</a>
                     </li>
-                    <li>
+                    <li {% if current_path == '/cv' %}class="active"{% endif %}>
                         <a href="{{ base_url }}/cv">CV</a>
                     </li>
                 </ul>
@@ -33,7 +33,7 @@
                         </a>
                     </li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
+            </div>
+        </div>
     </nav>
 </header>
