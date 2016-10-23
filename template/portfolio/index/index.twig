@@ -31,20 +31,23 @@
                     Common Technologies
                 </p>
             </div>
+            <div class="text-center visible-xs row">
+                <div class="col-xs-12">
+                    <p class="no-margin">
+                        <i class="fa fa-info-circle"></i> To view previews of the sites, simply tap the card. On hover events no worky on mobile!
+                    </p>
+                </div>
+            </div>
         </div>
-
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 hidden-xs">
                 <ul class="nav nav-tabs centered-tabs" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#featured" aria-controls="featured" role="tab" data-toggle="tab">Featured Projects <i class="fa fa-star" data-toggle="tooltip" title="Projects I consider to be my best work."></i></a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab">Personal Projects</a>
-                    </li>
-                    <li role="presentation">
-                        <a href="#work" aria-controls="work" role="tab" data-toggle="tab">Work Projects</a>
-                    </li>
+                    {% include 'portfolio/index/subnav.twig' %}
+                </ul>
+            </div>
+            <div class="col-xs-12 visible-xs">
+                <ul class="nav nav-pills centered-tabs">
+                    {% include 'portfolio/index/subnav.twig' %}
                 </ul>
             </div>
         </div>

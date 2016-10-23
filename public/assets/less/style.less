@@ -35,15 +35,6 @@ hr.half {
     border: 1px solid @border-color;
 }
 
-.row {
-    margin-bottom: @spacing * 2;
-}
-
-.double-row {
-    margin-left: -(@spacing * 2);
-    margin-right: -(@spacing * 2);
-}
-
 .no-padding {
     padding: 0;
 }
@@ -75,18 +66,20 @@ hr.half {
     }
 
     @media screen {
-        @media (max-width: @breakpoint-xs) {
+        @media @xs {
             margin-bottom: @spacing;
         }
     }
 }
 
 .card-grid {
-    &:last-child {
-        margin-bottom: 0;
+    .col-sm-6:last-child {
+        .card {
+            margin-bottom: 0;
+        }
     }
     .card {
-        margin: @spacing 0;
+        margin-bottom: @spacing * 2;
     }
 }
 
@@ -112,23 +105,11 @@ hr.half {
     margin-right: 0;
 }
 
-.centered-tabs {
-    text-align: center;
-    li {
-        display: inline-block;
-        float: none;
-    }
-}
-
 .social-links {
     a {
         margin: 0 @spacing / 3;
         text-decoration: none;
     }
-}
-
-.tab-content {
-    margin-bottom: @spacing * 2;
 }
 
 .row-splitter {
