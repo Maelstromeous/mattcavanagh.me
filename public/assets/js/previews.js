@@ -10,6 +10,11 @@ function handleHover(el, direction) {
     var scroll = $(img).height() - $(el).height();
     var progress = $(img).css('top');
 
+    // If the image is quite small, don't bother (e.g. kittyandco)
+    if (scroll < 0) {
+        return;
+    }
+
     if (direction === 'up') {
         scroll = 0;
     }
@@ -23,11 +28,6 @@ function handleHover(el, direction) {
     if (direction === 'up') {
         time = time / 2;
     }
-
-    /*console.log('scroll', scroll);
-    console.log('progress', progress);
-    console.log('remaining', remaining);*/
-    console.log('time', time);
 
     if (direction === 'down') {
         $(img).stop(false, false).animate({
