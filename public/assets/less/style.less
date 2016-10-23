@@ -46,6 +46,14 @@ hr.half {
     transition: all 0.2s ease-in;
     font-size: 0.9em;
 
+    a {
+        color: @link-color;
+        &:hover {
+            color: darken(@link-color, 10%);
+            text-decoration: underline;
+        }
+    }
+
     .card-content {
         padding: 0 (@spacing);
         p {
