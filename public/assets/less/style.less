@@ -81,6 +81,15 @@ hr.half {
     }
 }
 
+.card-grid {
+    &:last-child {
+        margin-bottom: 0;
+    }
+    .card {
+        margin: @spacing 0;
+    }
+}
+
 .tech-icons {
     i {
         font-size: 2.5em;
@@ -120,4 +129,10 @@ hr.half {
 
 .tab-content {
     margin-bottom: @spacing * 2;
+}
+
+.row-splitter {
+    overflow: hidden;
+    display: block;
+    width: 100%;
 }
