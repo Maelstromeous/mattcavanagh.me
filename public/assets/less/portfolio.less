@@ -3,6 +3,10 @@
 #portfolio-index {
     #technologies {
         margin: @spacing * 2;
+
+        @media @xs {
+            margin: (@spacing * 2) 0;
+        }
     }
 
     .card {
@@ -16,6 +20,7 @@
             font-size: 1.3em;
             color: #337ab7;
             margin: (@spacing / 2) 0;
+            word-break: break-all;
 
             &:hover {
                 color: darken(#337ab7, 20%);
@@ -24,12 +29,19 @@
         }
 
         .card-image {
-            height: 400px;
+            height: 30vh;
             position: relative;
             overflow: hidden;
             img {
                 position: absolute;
                 top: 0;
+            }
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .card-footer {
+            @media @xs {
+                text-align: center;
             }
         }
     }
