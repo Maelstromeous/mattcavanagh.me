@@ -1,13 +1,11 @@
-{% set _desc = block('description') %}
-
-{% if _desc is not empty %}
-    {% set description = _desc %}
-{% else %}
-    {% set description = "REPLACE ME!" %}
-{% endif %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {% set _desc = block('description') %}
+        {% set description = "REPLACE ME!" %}
+        {% if _desc is not empty %}
+            {% set description = _desc %}
+        {% endif %}
         <title>{% block title %}{% endblock %}</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,8 +18,9 @@
         <link rel="icon" href="{{ asset_url }}/img/favicon.ico">
 {% block stylesheets %}{% endblock %}
 {% block meta %}{% endblock %}
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-        <link rel="stylesheet" href="{{ asset_url }}/dist/main.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset_url }}/dist/main.min.css?v={{ version }}">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -32,7 +31,9 @@
     <body>
 {% include 'common/header.twig' %}
 {% block body %}{% endblock %}
-        <script src="{{ asset_url }}/dist/main.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="{{ asset_url }}/js/global.js?v={{ version }}"></script>
 {% block scripts %}{% endblock %}
 {% if environment == 'production' %}
         <script src="{{ asset_url }}/js/ga.js"></script>
