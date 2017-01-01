@@ -7,9 +7,13 @@
     <div class="jumbotron text-center">
         <h1>I make websites sing.</h1>
         <p>Matt Cavanagh - Full stack web developer</p>
-        <p>
+        <div class="half-row">
             <a class="btn btn-primary btn-lg" href="{{ base_url }}/portfolio" role="button">Check out my Portfolio!</a>
-        </p>
+        </div>
+        <div class="half-row">
+            <a class="btn btn-default" href="{{ base_url }}/cv" role="button">Curriculum Vitae</a>
+            <a class="btn btn-default" href="{{ base_url }}/contact" role="button">Say hello!</a>
+        </div>
         <div class="social-links">
             <a href="https://www.twitter.com/Maelstromeous" target="_blank" alt="My twitter" >
                 <i class="fa fa-twitter fa-3x" data-toggle="tooltip" title="Tweet me!"></i>
@@ -22,55 +26,5 @@
             </a>
         </div>
     </div>
-    <div class="row no-side-margin">
-        <div class="col-xs-12">
-            <div class="col-sm-4">
-                <div class="card text-center">
-                    <a href="{{ base_url }}/portfolio">
-                        <div class="card-image">
-                            <img src="https://placehold.it/500/500" class="img-responsive">
-                        </div>
-                        <div class="card-content">
-                            <h1>Portfolio</h1>
-                            <p>
-                                See what I've been working on!
-                            </p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card text-center">
-                    <a href="{{ base_url }}/cv">
-                        <div class="card-image">
-                            <img src="https://placehold.it/500/500" class="img-responsive">
-                        </div>
-                        <div class="card-content">
-                            <h1>Online CV</h1>
-                            <p>
-                                Check me out!
-                            </p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card text-center">
-                    <a href="{{ base_url }}/contact">
-                        <div class="card-image">
-                            <img src="https://placehold.it/500/500" class="img-responsive">
-                        </div>
-                        <div class="card-content">
-                            <h1>Contact</h1>
-                            <p>
-                                Say hello!
-                            </p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </section>
 {% endblock %}

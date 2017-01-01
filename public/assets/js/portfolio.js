@@ -10,7 +10,6 @@ $(document).ready(function() {
     $('.nav li a').on('shown.bs.tab', function(event) {
         var grid = $(this).attr('href');
         doGrid(grid);
-
     });
 });
 
@@ -26,5 +25,4 @@ function doGrid(selector) {
             $(selector + ' .card-grid').masonry('layout');
         }, 50);
     });
-
 }
