@@ -2,8 +2,7 @@ version: '2'
 services:
     nginx:
         image: tutum/nginx
-        expose:
-            - "80:80"
+        expose: 80
         links:
             - phpfpm
         volumes:
@@ -20,8 +19,7 @@ services:
             - VIRTUAL_HOST=dev.mattcavanagh.me
     phpfpm:
         image: php:fpm
-        expose:
-            - "9000:9000"
+        expose: 9000
         volumes:
             - ./app:/usr/share/nginx/html
         container_name: php.dev.mattcavanagh.me
