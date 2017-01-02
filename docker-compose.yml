@@ -14,7 +14,7 @@ services:
 
             - ./app:/usr/share/nginx/html # NGINX also needs access to serve statics
     php:
-        image: php:7.1-fpm
+        image: phpdockerio/php7-fpm
         ports:
             - "9000:9000"
         volumes:
