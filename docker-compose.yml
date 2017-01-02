@@ -2,7 +2,7 @@ version: '2'
 services:
     nginx:
         image: tutum/nginx
-        ports:
+        exposes:
             - "80:80"
         links:
             - phpfpm
@@ -15,9 +15,13 @@ services:
             - ./docker/logs/nginx-error.log:/var/log/nginx/error.log
 
             - ./app:/usr/share/nginx/html # NGINX also needs access to serve statics
+        container_name: dev.mattcavanagh.me
+        environment:
+            - VIRTUAL_HOST=dev.mattcavanagh.me
     phpfpm:
         image: php:fpm
-        ports:
+        exposes:
             - "9000:9000"
         volumes:
             - ./app:/usr/share/nginx/html
+        container_name: php.dev.mattcavanagh.me
