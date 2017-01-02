@@ -1,0 +1,16 @@
+{
+	"mappings": [
+		{
+			"src": "main.less",
+		 	"dest": "../css/main.min.css"
+		}
+	],
+
+	"ignores": [""],
+
+	"includePaths": [],
+
+	"options": {
+		"autocompile": false
+	}
+}
