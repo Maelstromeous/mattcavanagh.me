@@ -1,3 +1,3 @@
 /app/.env
 /app/vendor/
-docker/logs
+docker/logs/*
