@@ -12,10 +12,10 @@ services:
             - ./docker/logs/nginx-error.log:/var/log/nginx/error.log
             - ./docker/logs/nginx-access.log:/var/log/nginx/access.log
 
-            - ./app:/usr/share/nginx/html # NGINX also needs access to serve statics
+            - ./:/usr/share/nginx/html # NGINX also needs access to serve statics
     php:
         image: phpdockerio/php7-fpm
         ports:
             - "9000:9000"
         volumes:
-            - ./app:/usr/share/nginx/html
+            - ./:/usr/share/nginx/html
