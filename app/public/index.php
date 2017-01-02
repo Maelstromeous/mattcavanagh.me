@@ -8,10 +8,10 @@ josegonzalez\Dotenv\Loader::load([
     'toEnv'    => true
 ]);
 
-/*if ($_ENV['ENVIRONMENT'] === 'staging' && $_SERVER['REMOTE_ADDR'] !== $_ENV['HOME_IP']) {
+if ($_ENV['ENVIRONMENT'] === 'staging' && $_SERVER['REMOTE_ADDR'] !== $_ENV['HOME_IP']) {
     echo 'Nope.';
     die;
-}*/
+}
 
 $container = include __DIR__ . '/../src/container.php';
 
