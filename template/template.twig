@@ -2,20 +2,12 @@
 <html lang="en">
     <head>
         {% set _desc = block('description') %}
-        {% set description = "REPLACE ME!" %}
+        {% set description = "Matt Cavanagh is a full stack web developer based in the South Yorkshire town of Barnsley, United Kingdom, specializing in PHP and JavaScript applications." %}
         {% if _desc is not empty %}
             {% set description = _desc %}
         {% endif %}
         <title>{% block title %}{% endblock %}</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:image" content="{{ asset_url }}/img/facebook-share.png">
-        <meta property="og:url" content="{{ base_url ~ current_path }}">
-        <meta property="description" content="{{ description }}">
-        <meta property="og:description" content="{{ description }}">
-        <meta property="og:type" content="website">
-        <link rel="icon" href="{{ asset_url }}/img/favicon.ico">
+        {% include 'common/meta.twig' %}
 {% block stylesheets %}{% endblock %}
 {% block meta %}{% endblock %}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
