@@ -1,20 +1,23 @@
 version: '2'
 services:
-    web:
-        image: nginx:latest
+    nginx:
+        image: tutum/nginx
         ports:
-            - "8080:80"
+            - "80:80"
+        links:
+            - phpfpm
         volumes:
-            - ./public:/src
-            - ./site.conf:/etc/nginx/conf.d/site.conf
-        networks:
-            - code-network
-    php:
-        image: php:7-fpm
+            - ./docker/nginx/default:/etc/nginx/sites-available/default
+            - ./docker/nginx/default:/etc/nginx/sites-enabled/default
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+            - ./docker/logs/nginx-error.log:/var/log/nginx/error.log
+            - ./docker/logs/nginx-access.log:/var/log/nginx/access.log
+
+            - ./app:/usr/share/nginx/html # NGINX also needs access to serve statics
+    phpfpm:
+        image: php:fpm
+        ports:
+            - "9000:9000"
         volumes:
-            - ./src:/src
-        networks:
-            - code-network
-networks:
-    code-network:
-        driver: bridge
+            - ./app:/usr/share/nginx/html

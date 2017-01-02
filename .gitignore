@@ -1,6 +1,2 @@
-.env
-/vendor/
-node_modules/
-/bower_components/
-/public/assets/compiled
-/public/assets/dist
+/app/.env
+/app/vendor/
