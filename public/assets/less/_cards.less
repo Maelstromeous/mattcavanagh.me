@@ -1,0 +1,51 @@
+.card {
+    .content; // #MixinsAreAwesome
+    padding: 0;
+    padding-bottom: @v-base;
+    transition: all 0.2s ease-in;
+    font-size: 0.9em;
+
+    a {
+        color: @link-color;
+        &:hover {
+            color: darken(@link-color, 10%);
+            text-decoration: underline;
+        }
+    }
+
+    .card-content {
+        padding: 0 (@spacing);
+        p {
+            margin: 0;
+        }
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px #b5b5b5;
+        border: 1px solid @border-color;
+    }
+
+    .card-footer {
+        border-top: 1px solid @border-color;
+        padding: (@v-base * 0.5) @spacing;
+        padding-bottom: 0;
+        margin-top: @v-base * 0.5;
+    }
+
+    @media screen {
+        @media @xs {
+            margin-bottom: @v-base;
+        }
+    }
+}
+
+.card-grid {
+    .col-sm-6:last-child {
+        .card {
+            margin-bottom: 0;
+        }
+    }
+    .card {
+        margin-bottom: @v-base;
+    }
+}

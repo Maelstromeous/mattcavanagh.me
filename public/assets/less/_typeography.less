@@ -21,6 +21,27 @@ h6 {
     line-height: @v-base;
 }
 
+p {
+    font-size: 1em;
+    margin-bottom: @v-base;
+    line-height: @v-base;
+
+    &.caption {
+        color: #b3b2b2;
+        font-size: 0.9em;
+    }
+}
+
+a {
+    color: @color;
+    line-height: @v-base;
+    transition: color 0.25s;
+    &:hover {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
 h1 {
     font-size: 3.0em;
     @media screen {
@@ -55,19 +76,4 @@ h3 {
             font-size: 1.375em;
         }
     }
-}
-
-p {
-    font-size: 1em;
-    margin-bottom: @v-base;
-    line-height: @v-base;
-
-    &.caption {
-        color: #b3b2b2;
-        font-size: 0.9em;
-    }
-}
-
-a {
-    line-height: @v-base;
 }

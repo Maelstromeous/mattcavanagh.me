@@ -5,8 +5,11 @@
             margin: 0 3px;
         }
     }
+
     .card {
         cursor: pointer;
+        padding-bottom: (@v-base * 0.5);
+
         h3 {
             margin-bottom: 0;
         }
@@ -31,15 +34,36 @@
             position: relative;
             overflow: hidden;
             margin-bottom: @v-base * 0.5;
+            border-bottom: 1px solid #eaeaea;
+
             img {
                 position: absolute;
                 top: 0;
             }
-            border-bottom: 1px solid #eaeaea;
         }
 
         .card-footer {
-            padding-top: (@v-base * 1.25) - 1px;
+            padding-top: @v-base * 0.5 - 2; // Fix for weird devicons spacing
+            margin-top: @v-base * 0.5;
+            overflow: hidden;
+
+            img, i {
+                float: left;
+                margin-right: 5px;
+            }
+
+            @mod: 1.50;
+
+            img {
+                width: @v-base * @mod;
+                height: @v-base * @mod;
+            }
+
+            i {
+                line-height: @v-base * @mod;
+                font-size: @v-base * @mod;
+            }
+
             @media @xs {
                 text-align: center;
             }

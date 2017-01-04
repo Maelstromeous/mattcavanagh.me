@@ -8,6 +8,11 @@
     .navbar-brand {
         height: @v-base * 2;
         min-height: @v-base * 2;
+        line-height: @v-base;
+    }
+
+    .navbar-brand {
+        padding: (@v-base * 0.5) @spacing;
     }
 
     .navbar-default {
@@ -18,6 +23,10 @@
             transition: background-color 0.25s;
             &:hover {
                 background-color: #f3f3f3;
+            }
+
+            a {
+                padding: (@v-base * 0.5) @spacing;
             }
         }
 
