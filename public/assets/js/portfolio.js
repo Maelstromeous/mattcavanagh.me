@@ -5,7 +5,7 @@ $(document).ready(function() {
         itemSelector: '.col-sm-6',
     });
 
-    doGrid('#featured');
+    doGrid('#all');
 
     $('.nav li a').on('shown.bs.tab', function() {
         var grid = $(this).attr('href');

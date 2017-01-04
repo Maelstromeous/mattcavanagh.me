@@ -6,6 +6,7 @@
         }
     }
     .card {
+        cursor: pointer;
         h3 {
             margin-bottom: 0;
         }
@@ -16,6 +17,7 @@
             font-size: 1.3em;
             color: #337ab7;
             word-break: break-all;
+            margin-bottom: @v-base * 0.5;
 
             &:hover {
                 color: darken(#337ab7, 20%);
@@ -28,6 +30,7 @@
             min-height: @v-base * 4;
             position: relative;
             overflow: hidden;
+            margin-bottom: @v-base * 0.5;
             img {
                 position: absolute;
                 top: 0;
@@ -36,7 +39,7 @@
         }
 
         .card-footer {
-            padding-top: (@v-base * 1.25);
+            padding-top: (@v-base * 1.25) - 1px;
             @media @xs {
                 text-align: center;
             }

@@ -11,7 +11,7 @@
 {% block meta %}{% endblock %}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="{{ asset_url }}/css/main.css?v={{ version }}">
+        <link rel="stylesheet" href="{{ asset_url }}/css/main.css?{{ version }}">
 {% block stylesheets %}{% endblock %}
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,7 +25,7 @@
 {% block body %}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="{{ asset_url }}/js/global.js?v={{ version }}"></script>
+        <script src="{{ asset_url }}/js/global.js?{{ version }}"></script>
 {% block scripts %}{% endblock %}
 {% if environment == 'production' %}
         <script src="{{ asset_url }}/js/ga.js"></script>

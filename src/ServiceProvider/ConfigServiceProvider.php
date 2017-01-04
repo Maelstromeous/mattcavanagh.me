@@ -21,7 +21,7 @@ class ConfigServiceProvider extends AbstractServiceProvider
                 'environment' => $_ENV['ENVIRONMENT'],
                 'base_url'    => $_ENV['BASE_URL'],
                 'asset_url'   => $_ENV['BASE_URL'] . '/assets',
-                'version'     => $_ENV['VERSION']
+                'version'     => '?v=' . $_ENV['VERSION']
             ];
         });
     }

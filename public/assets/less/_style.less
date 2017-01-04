@@ -22,7 +22,7 @@ hr {
 }
 
 hr.half {
-    margin-top: @v-base * 0.5;
+    margin-top: (@v-base * 0.5) - 1px;
     margin-bottom: (@v-base * 0.5) - 1px;
 }
 
@@ -73,7 +73,7 @@ section {
         border-top: 1px solid @border-color;
         padding: (@v-base) @spacing;
         padding-bottom: 0;
-        margin-top: @v-base - 1px;
+        margin-top: @v-base;
     }
 
     @media screen {
@@ -98,7 +98,7 @@ section {
     @icon-base: @v-base * 1.5;
     i {
         font-size: @icon-base;
-        margin: 2px;
+        margin: 0 2px;
     }
 
     img {
