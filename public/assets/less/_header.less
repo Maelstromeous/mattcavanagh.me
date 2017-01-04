@@ -1,5 +1,14 @@
 #header {
-    height: @header-height;
+    margin-bottom: @v-base;
+    height: @v-base * 2;
+
+    // Bootstrap overrides
+    a,
+    .navbar,
+    .navbar-brand {
+        height: @v-base * 2;
+        min-height: @v-base * 2;
+    }
 
     .navbar-default {
         background-color: #fff;
@@ -14,9 +23,13 @@
 
         .navbar-right {
             margin-right: 0;
+
             a {
-                padding: 10px;
-                padding-top: 11px;
+                padding: (@v-base * 0.5) (@v-base * 0.25);
+
+                i {
+                    line-height: @v-base;
+                }
             }
         }
     }

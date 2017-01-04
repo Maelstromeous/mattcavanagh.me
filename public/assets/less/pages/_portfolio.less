@@ -1,12 +1,10 @@
 #portfolio-index {
     #technologies {
-        margin: @spacing * 2;
-
-        @media @xs {
-            margin: (@spacing * 2) 0;
+        i {
+            font-size: @v-base * 1.9;
+            margin: 0 3px;
         }
     }
-
     .card {
         h3 {
             margin-bottom: 0;
@@ -17,7 +15,6 @@
             text-align: center;
             font-size: 1.3em;
             color: #337ab7;
-            margin: (@spacing / 2) 0;
             word-break: break-all;
 
             &:hover {
@@ -27,7 +24,8 @@
         }
 
         .card-image {
-            height: 30vh;
+            height: 20vw;
+            min-height: @v-base * 4;
             position: relative;
             overflow: hidden;
             img {
@@ -38,6 +36,7 @@
         }
 
         .card-footer {
+            padding-top: (@v-base * 1.25);
             @media @xs {
                 text-align: center;
             }
