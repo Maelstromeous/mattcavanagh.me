@@ -1,16 +1,18 @@
 {
-	"mappings": [
-		{
-			"src": "main.less",
-		 	"dest": "../css/main.min.css"
-		}
-	],
+    "mappings": [
+        {
+            "src": "main.less",
+             "dest": "../dist/main.min.css"
+        }
+    ],
 
-	"ignores": [""],
+    "ignores": [""],
 
-	"includePaths": [],
+    "includePaths": [],
 
-	"options": {
-		"autocompile": false
-	}
+    "options": {
+        "autocompile": false,
+        "autoprefix": true,
+        "sourcemap": true
+    }
 }
