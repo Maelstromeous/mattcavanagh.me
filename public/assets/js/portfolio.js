@@ -7,9 +7,14 @@ $(document).ready(function() {
 
     doGrid('#featured');
 
-    $('.nav li a').on('shown.bs.tab', function(event) {
+    $('.nav li a').on('shown.bs.tab', function() {
         var grid = $(this).attr('href');
         doGrid(grid);
+    });
+
+    $('.card.preview').on('click', function() {
+        var link = $(this).data('href');
+        window.location.replace(link);
     });
 });
 
