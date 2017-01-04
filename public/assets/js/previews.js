@@ -11,7 +11,8 @@ function handleHover(el, direction) {
     var progress = $(img).css('top');
 
     // If the image is quite small, don't bother (e.g. kittyandco)
-    if (scroll < 50) {
+    if (scroll < 40) {
+        console.log('Not bothering...', scroll);
         return;
     }
 
