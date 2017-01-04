@@ -12,7 +12,7 @@
         <div class="col-sm-10 col-sm-offset-1">
             <h1 class="text-center">My Portfolio</h1>
             <p class="text-center">
-                Below you'll find all of my current work, projects I&rsquo;m happy that reflect my skills as a web developer. There&rsquo;s a mixture of work, personal and community projects, briefly listing what technologies I&rsquo;ve used, completion dates and links to each.
+                Below you'll find all of my current work, projects I feel reflect my skills as a web developer. There&rsquo;s a mixture of profesional, personal and community projects, briefly listing what technologies I&rsquo;ve used, completion dates and links to each.
             </p>
         </div>
     </div>
@@ -21,13 +21,15 @@
             <div>
                 <i class="devicon-php-plain" data-toggle="tooltip" title="PHP 7"></i>
                 <i class="devicon-javascript-plain" data-toggle="tooltip" title="JavaScript"></i>
+                <i class="devicon-jquery-plain" data-toggle="tooltip" title="jQuery"></i>
                 <i class="devicon-nginx-plain" data-toggle="tooltip" title="NGINX Webserver"></i>
                 <i class="devicon-mysql-plain-wordmark" data-toggle="tooltip" title="Mysql / MariaDB"></i>
                 <i class="devicon-git-plain" data-toggle="tooltip" title="Git"></i>
                 <i class="devicon-github-plain" data-toggle="tooltip" title="GitHub"></i>
                 <i class="devicon-ubuntu-plain" data-toggle="tooltip" title="Ubuntu 16.04+"></i>
-                <i class="devicon-atom-plain" data-toggle="tooltip" title="Atom"></i>
                 <img src="{{ base_url }}/assets/img/jenkins-grey.png" data-toggle="tooltip" title="Jenkins">
+                <img src="{{ base_url }}/assets/img/vagrant-grey.png" data-toggle="tooltip" title="Vagrant + Virtualbox">
+                <i class="devicon-atom-plain" data-toggle="tooltip" title="Atom"></i>
             </div>
             <p class="caption text-center">
                 Common Technologies
@@ -42,12 +44,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 hidden-xs">
+        <div class="col-xs-12 hidden-xs hidden-sm">
             <ul class="nav nav-tabs centered-tabs" role="tablist">
                 {% include 'portfolio/index/subnav.twig' %}
             </ul>
         </div>
-        <div class="col-xs-12 visible-xs">
+        <div class="col-xs-12 visible-xs visible-sm">
             <ul class="nav nav-pills centered-tabs">
                 {% include 'portfolio/index/subnav.twig' %}
             </ul>

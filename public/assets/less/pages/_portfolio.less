@@ -1,8 +1,13 @@
 #portfolio-index {
     #technologies {
         i {
-            font-size: @v-base * 1.9;
+            font-size: round(@v-base * 1.9);
             margin: 0 3px;
+        }
+
+        img {
+            width: round(@v-base * 1.9);
+            height: round(@v-base * 1.9);
         }
     }
 
@@ -40,10 +45,14 @@
                 position: absolute;
                 top: 0;
             }
+
+            @media @xs {
+                height: 30vw;
+            }
         }
 
         .card-footer {
-            padding-top: @v-base * 0.5 - 2; // Fix for weird devicons spacing
+            padding-top: @v-base * 0.5 - 2px; // Fix for weird devicons spacing
             margin-top: @v-base * 0.5;
             overflow: hidden;
 
