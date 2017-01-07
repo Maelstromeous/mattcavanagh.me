@@ -1,7 +1,6 @@
 <div class="row no-margin card-grid">
-    {% for project in projects.all %}
     <div class="col-sm-6 col-md-4">
-        {% include 'portfolio/index/cards/' ~ project ~ '.twig' %}
+        {% include 'portfolio/index/cards/portfolio.twig' %}
     </div>
     <div class="col-sm-6 col-md-4">
         {% include 'portfolio/index/cards/dig.twig' %}
