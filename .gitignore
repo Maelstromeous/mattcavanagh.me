@@ -2,3 +2,4 @@
 /app/vendor/
 vendor
 !public/assets/js/vendor
+docker/logs
