@@ -8,10 +8,8 @@ services:
             - php
         volumes:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-
-            - ./docker/logs/nginx-error.log:/var/log/nginx/error.log
+            - ./docker/logs/nginx-errors.log:/var/log/nginx/error.log
             - ./docker/logs/nginx-access.log:/var/log/nginx/access.log
-
             - ./:/usr/share/nginx/html # NGINX also needs access to serve statics
     php:
         image: phpdockerio/php7-fpm
