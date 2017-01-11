@@ -8,6 +8,12 @@ josegonzalez\Dotenv\Loader::load([
     'toEnv'    => true
 ]);
 
+if ($_ENV['ENVIRONMENT'] === 'staging' && $_ENV['IP_LOCK'] === true) {
+    if ($_SERVER['REMOTE_ADDR'] !== $_ENV['HOME_IP']) {
+        echo 'Nope.';
+        die;
+    }
+}
 $container = include __DIR__ . '/../src/container.php';
 
 $router = include __DIR__ . '/../src/router.php';

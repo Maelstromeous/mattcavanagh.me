@@ -28,14 +28,6 @@ class HttpMessageServiceProvider extends AbstractServiceProvider
         $this->getContainer()->share('Zend\Diactoros\Response\SapiEmitter');
 
         $this->getContainer()->share('Zend\Diactoros\ServerRequest', function () {
-            $config = $this->getContainer()->get('config');
-
-            if ($config['environment'] === 'development') {
-                $_SERVER['REQUEST_URI'] = str_replace('/mattcavanagh/public', '', $_SERVER['REQUEST_URI']);
-            } else {
-                $_SERVER['REQUEST_URI'] = '/';
-            }
-
             return ServerRequestFactory::fromGlobals();
         });
     }

@@ -1,39 +1,38 @@
 <header id="header">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button"
-                        class="navbar-toggle collapsed"
-                        data-toggle="collapse"
-                        data-target="#navigation"
-                        aria-expanded="false">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav" aria-expanded="false">
+                    <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="{{ base_url }}">Matt&rsquo;s corner of the web</a>
+                <a class="navbar-brand" href="{{ base_url }}">Matt Cavanagh</a>
             </div>
-            <div class="collapse navbar-collapse" id="navigation">
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="nav">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li {% if current_path == '/portfolio' %}class="active"{% endif %}>
                         <a href="{{ base_url }}/portfolio">Portfolio</a>
                     </li>
                     <li>
-                        <a href="{{ base_url }}/cv">Online CV</a>
-                    </li>
-                    <li>
-                        <a href="{{ base_url }}/contact">Contact</a>
+                        <a href="https://docs.google.com/document/d/1LA0YePMLR8M7KVZt8fdU-JcdUlKw4VLFomQvjuAi6q8" target="_blank" class="cv">Curriculum Vitae</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="https://github.com/Maelstrome26/"><i class="fa fa-2x fa-github"></i></a>
+                        <a href="https://www.twitter.com/Maelstromeous" target="_blank" alt="My twitter" class="twitter" data-location="header">
+                            <i class="fa fa-twitter fa-2x" data-toggle="tooltip" title="Tweet me!" data-placement="bottom"></i>
+                        </a>
                     </li>
                     <li>
-                        <a href="https://twitter.com/Maelstrome26"><i class="fa fa-2x fa-twitter"></i></a>
+                        <a href="https://github.com/Maelstromeous" target="_blank" alt="Check out my code on GitHub!" class="github" data-location="header">
+                            <i class="fa fa-github fa-2x" data-toggle="tooltip" title="Check out my code on GitHub!" data-placement="bottom"></i>
+                        </a>
                     </li>
                     <li>
-                        <a href="https://www.linkedin.com/in/mattcavanagh"><i class="fa fa-2x fa-linkedin"></i></a>
+                        <a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;&#099;&#111;&#110;&#116;&#097;&#099;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;" class="email" data-location="header">
+                            <i class="fa fa-2x fa-envelope" data-toggle="tooltip" title="Shoot me an email!" data-placement="bottom"></i>
+                        </a>
                     </li>
                 </ul>
             </div>

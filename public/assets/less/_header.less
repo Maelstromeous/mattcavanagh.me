@@ -1,0 +1,45 @@
+#header {
+    margin-bottom: @v-base;
+    height: @v-base * 2;
+
+    // Bootstrap overrides
+    a,
+    .navbar,
+    .navbar-brand {
+        height: @v-base * 2;
+        min-height: @v-base * 2;
+        line-height: @v-base;
+    }
+
+    .navbar-brand {
+        padding: (@v-base * 0.5) @spacing;
+    }
+
+    .navbar-default {
+        background-color: #fff;
+        box-shadow: 0 0 10px #dadada;
+
+        .navbar-nav li {
+            transition: background-color 0.25s;
+            &:hover {
+                background-color: #f3f3f3;
+            }
+
+            a {
+                padding: (@v-base * 0.5) @spacing;
+            }
+        }
+
+        .navbar-right {
+            margin-right: 0;
+
+            a {
+                padding: (@v-base * 0.5) (@v-base * 0.25);
+
+                i {
+                    line-height: @v-base;
+                }
+            }
+        }
+    }
+}

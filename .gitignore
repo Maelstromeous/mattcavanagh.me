@@ -1,7 +1,5 @@
-.env
-/vendor/
-node_modules/
-/bower_components/
-/public/assets/compiled
-/public/assets/dist
-public/bower_components/
+/app/.env
+/app/vendor/
+vendor
+!public/assets/js/vendor
+docker/logs

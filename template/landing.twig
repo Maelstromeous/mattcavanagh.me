@@ -1,14 +1,37 @@
 {% extends 'template.twig' %}
 
-{% block title %}Nothing to see here...{% endblock %}
-{% block description %}Nothing to see here...{% endblock %}
+{% block title %}Welcome!{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset_url }}/css/pages/landing.css" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
-<section id="landing" class="container">
-    <div class="col-xs-12 text-center">
-        <h1>Nothing to see here...</h1>
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://www.youtube.com/embed/GO_xfR64qSk" frameborder="0" allowfullscreen></iframe>
+<section id="landing">
+    <div class="row">
+        <div class="jumbotron text-center">
+            <h1>I make websites sing.</h1>
+            <h3>Matt Cavanagh - Full stack web developer</h3>
+            <div class="half-row">
+                <a class="btn btn-primary btn-lg" href="{{ base_url }}/portfolio" role="button">Check out my Portfolio!</a>
+            </div>
+            <div class="half-row">
+                <a class="btn btn-default" href="https://docs.google.com/document/d/1LA0YePMLR8M7KVZt8fdU-JcdUlKw4VLFomQvjuAi6q8" target="_blank">Curriculum Vitae</a>
+            </div>
+            <div class="social-links half-row">
+                <a href="https://www.twitter.com/Maelstromeous" target="_blank" alt="My twitter" class="twitter" data-location="landing">
+                    <i class="fa fa-twitter fa-3x" data-toggle="tooltip" title="Tweet me!"></i>
+                </a>
+                <a href="https://github.com/Maelstromeous" target="_blank" alt="Check out my code on GitHub!" class="github" data-location="landing">
+                    <i class="fa fa-github fa-3x" data-toggle="tooltip" title="Check out my code on GitHub!"></i>
+                </a>
+                <a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;&#099;&#111;&#110;&#116;&#097;&#099;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;" alt="Shoot me an email!" class="email" data-location="landing">
+                    <i class="fa fa-envelope fa-3x" data-toggle="tooltip" title="Shoot me an email!"></i>
+                </a>
+            </div>
+            <p>
+                &#099;&#111;&#110;&#116;&#097;&#099;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;
+            </p>
         </div>
     </div>
 </section>

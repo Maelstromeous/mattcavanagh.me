@@ -1,0 +1,46 @@
+.row {
+    margin-bottom: @v-base;
+}
+
+.double-row {
+    margin-left: -(@spacing * 2);
+    margin-right: -(@spacing * 2);
+}
+
+.half-row {
+    margin-bottom: @v-base * 0.5;
+}
+
+.nav-tabs > li > a {
+    height: @v-base * 2;
+    border: 1px solid #ccc;
+    border-bottom-color: transparent;
+    padding: (@v-base * 0.5) (@v-base * 0.75);
+
+    &:hover {
+        border-color: #ccc;
+    }
+}
+
+.nav-pills {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: @v-base;
+}
+
+.centered-tabs {
+    text-align: center;
+    li {
+        display: inline-block;
+        float: none;
+    }
+}
+
+.tab-content {
+    margin-bottom: @v-base;
+}
+
+div[class^='col-'],
+div[class*=' col-'] {
+    padding-left: @v-base * 0.5;
+    padding-right: @v-base * 0.5;
+}

@@ -1,0 +1,71 @@
+body {
+    background-color: @bg-color;
+    color: @color;
+    #main {
+        .container {
+            padding: @spacing;
+        }
+    }
+}
+
+hr {
+    margin: @v-base 0;
+}
+
+hr.half {
+    margin-top: (@v-base * 0.5) - 1px;
+    margin-bottom: (@v-base * 0.5) - 1px;
+}
+
+section {
+    overflow: hidden;
+    padding: 0 @spacing;
+}
+
+.content {
+    background-color: #fff;
+    padding: @v-base;
+    box-shadow: 0 0 10px #e8e8e8;
+    border-radius: 3px;
+    border: 1px solid @border-color;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.tech-icons {
+    @icon-base: @v-base * 1.5;
+    i {
+        font-size: @icon-base;
+        margin: 0 2px;
+    }
+
+    img {
+        vertical-align: top;
+        width: @icon-base;
+        height: @icon-base;
+    }
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-side-margin {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.social-links {
+    a {
+        margin: 0 @spacing / 3;
+        text-decoration: none;
+    }
+}
+
+.row-splitter {
+    overflow: hidden;
+    display: block;
+    width: 100%;
+}

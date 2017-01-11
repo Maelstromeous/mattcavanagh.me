@@ -1,0 +1,79 @@
+body {
+    line-height: @v-base;
+    font-size: @font-size;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    margin-bottom: @v-base;
+    line-height: @v-base * 2;
+}
+
+h4,
+h5,
+h6 {
+    line-height: @v-base;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: @v-base;
+    line-height: @v-base;
+
+    &.caption {
+        color: #b3b2b2;
+        font-size: 0.9em;
+    }
+}
+
+a {
+    color: @color;
+    line-height: @v-base;
+    transition: color 0.25s;
+    &:hover {
+        text-decoration: none;
+        color: #000;
+    }
+}
+
+h1 {
+    font-size: 3.0em;
+    @media screen {
+        @media (max-width: 767px) {
+            font-size: 2.5em;
+        }
+        @media (max-width: 320px) {
+            font-size: 2em;
+        }
+    }
+}
+
+h2 {
+    font-size: 2.25em;
+    @media screen {
+        @media (max-width: 767px) {
+            font-size: 2em;
+        }
+        @media (max-width: 320px) {
+            font-size: 1.625em;
+        }
+    }
+}
+
+h3 {
+    font-size: 1.75em;
+    @media screen {
+        @media (max-width: 767px) {
+            font-size: 1.5em;
+        }
+        @media (max-width: 320px) {
+            font-size: 1.375em;
+        }
+    }
+}
