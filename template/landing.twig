@@ -25,12 +25,12 @@
                 <a href="https://github.com/Maelstromeous" target="_blank" alt="Check out my code on GitHub!" class="github" data-location="landing">
                     <i class="fa fa-github fa-3x" data-toggle="tooltip" title="Check out my code on GitHub!"></i>
                 </a>
-                <a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;&#099;&#111;&#110;&#116;&#097;&#099;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;" alt="Shoot me an email!" class="email" data-location="landing">
+                <a href="{{ email|raw }}" alt="Shoot me an email!" class="email" data-location="landing">
                     <i class="fa fa-envelope fa-3x" data-toggle="tooltip" title="Shoot me an email!"></i>
                 </a>
             </div>
             <p>
-                &#099;&#111;&#110;&#116;&#097;&#099;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;
+                {{ email_text|raw }}
             </p>
         </div>
     </div>
