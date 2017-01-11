@@ -5,3 +5,39 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-15631800-15', 'auto');
 ga('send', 'pageview');
+
+$('.cv').on('click', function() {
+    ga('send', {
+        hitType: 'pageview',
+        page: 'cv'
+    });
+
+    sendEvent('CV', $(this));
+});
+
+$('.github').on('click', function() {
+    sendEvent('GitHub', $(this));
+});
+
+$('.twitter').on('click', function() {
+    sendEvent('Twitter', $(this));
+});
+
+$('.email').on('click', function() {
+    sendEvent('Email', $(this));
+});
+
+$('#portfolio-index .card .project-link').on('click', function() {
+    sendEvent('Portfolio Link', $(this));
+});
+
+function sendGAEvent(category, context) {
+    var location = $(context).data('location');
+
+    ga('send', {
+        hitType: 'event',
+        eventCategory: category,
+        eventAction: 'click',
+        eventLabel: location
+    });
+}

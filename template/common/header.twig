@@ -14,22 +14,24 @@
                     <li {% if current_path == '/portfolio' %}class="active"{% endif %}>
                         <a href="{{ base_url }}/portfolio">Portfolio</a>
                     </li>
-                    <li {% if current_path == '/cv' %}class="active"{% endif %}>
-                        <a href="{{ base_url }}/cv">CV</a>
-                    </li>
-                    <li {% if current_path == '/contact' %}class="active"{% endif %}>
-                        <a href="{{ base_url }}/contact">Contact me!</a>
+                    <li>
+                        <a href="https://docs.google.com/document/d/1LA0YePMLR8M7KVZt8fdU-JcdUlKw4VLFomQvjuAi6q8" target="_blank" class="cv">Curriculum Vitae</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="https://www.twitter.com/Maelstromeous" target="_blank" alt="My twitter" >
+                        <a href="https://www.twitter.com/Maelstromeous" target="_blank" alt="My twitter" class="twitter" data-location="header">
                             <i class="fa fa-twitter fa-2x" data-toggle="tooltip" title="Tweet me!" data-placement="bottom"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/Maelstromeous" target="_blank">
-                            <i class="fa fa-2x fa-github" data-toggle="tooltip" title="Check out my code on GitHub!" data-placement="bottom"></i>
+                        <a href="https://github.com/Maelstromeous" target="_blank" alt="Check out my code on GitHub!" class="github" data-location="header">
+                            <i class="fa fa-github fa-2x" data-toggle="tooltip" title="Check out my code on GitHub!" data-placement="bottom"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="&#109;&#097;&#105;&#108;&#116;&#111;&#058;&#099;&#111;&#110;&#116;&#097;&#099;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;" class="email" data-location="header">
+                            <i class="fa fa-2x fa-envelope" data-toggle="tooltip" title="Shoot me an email!" data-placement="bottom"></i>
                         </a>
                     </li>
                 </ul>

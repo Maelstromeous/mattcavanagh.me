@@ -25,10 +25,10 @@
 {% block body %}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="{{ asset_url }}/js/global.js?{{ version }}"></script>
+        <script src="{{ asset_url }}/js/global.js{{ version }}"></script>
 {% block scripts %}{% endblock %}
 {% if environment == 'production' %}
-        <script src="{{ asset_url }}/js/ga.js"></script>
+        <script src="{{ asset_url }}/js/ga.js{{ version }}"></script>
 {% endif %}
     </body>
 </html>
