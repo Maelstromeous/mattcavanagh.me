@@ -17,7 +17,7 @@ $(document).ready(function() {
         if (link && link !== undefined) {
             window.location.assign(link);
         } else {
-            alert('Sorry, the details page of this project is not available.');
+            //alert('Sorry, the details page of this project is not available.');
         }
     });
 });

@@ -5,7 +5,8 @@
     // Bootstrap overrides
     a,
     .navbar,
-    .navbar-brand {
+    .navbar-brand,
+    .navbar-header {
         height: @v-base * 2;
         min-height: @v-base * 2;
         line-height: @v-base;
@@ -40,6 +41,31 @@
                     line-height: @v-base;
                 }
             }
+
+            @media @xs {
+                text-align: center;
+
+                li {
+                    display: inline-block;
+                }
+            }
+        }
+
+        .navbar-toggle {
+            margin-top: 4px;
+            height: 38px;
+            line-height: 18px;
+            width: 38px;
+        }
+    }
+
+    .navbar-collapse {
+        @media @xs {
+            background-color: #fff;
+            width: 100vw;
+            border-bottom: 1px solid #ccc;
+            position: absolute;
+            top: 47px;
         }
     }
 }

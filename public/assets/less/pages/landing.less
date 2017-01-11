@@ -1,11 +1,29 @@
+@import '../_variables.less';
+
+body {
+    background-color: #eee;
+    height: 100vh;
+}
+
 #header {
     margin-bottom: 0;
 }
 
 #landing {
-    .jumbotron {
-        padding: 30vh 0;
+    height: 91vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+
+    .row {
         margin: 0;
+    }
+
+    .jumbotron {
+        padding: @spacing;
+        margin-bottom: 0;
+
         h1 {
             margin-top: 0;
         }
