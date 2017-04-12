@@ -10,7 +10,7 @@ services:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
             - ./:/usr/share/nginx/html # NGINX also needs access to serve statics
         environment:
-            - VIRTUAL_HOST=dev.mattcavanagh.me
+            - VIRTUAL_HOST=*.mattcavanagh.me
     php:
         image: phpdockerio/php7-fpm
         ports:
