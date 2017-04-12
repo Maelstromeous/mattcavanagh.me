@@ -2,7 +2,6 @@ version: '3'
 services:
     nginx:
         image: nginx:1.11
-        container_name: mattcavanagh-nginx-staging
         ports:
             - "80"
         links:
@@ -15,7 +14,6 @@ services:
         restart: always
     php:
         image: phpdockerio/php7-fpm
-        container_name: mattcavanagh-php-staging
         ports:
             - "9000"
         volumes:
