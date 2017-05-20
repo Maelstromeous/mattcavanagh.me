@@ -9,6 +9,11 @@ services:
             - ../:/var/www/html # NGINX also needs access to serve statics
         environment:
             - VIRTUAL_HOST=www.mattcavanagh.me,mattcavanagh.me,dev.mattcavanagh.me,staging.mattcavanagh.me
+    composer:
+        image: composer/composer
+        volumes:
+            - .:/app
+        command: install
 networks:
     default:
         external:
