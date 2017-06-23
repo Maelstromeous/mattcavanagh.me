@@ -20,6 +20,20 @@ $(document).ready(function() {
             //alert('Sorry, the details page of this project is not available.');
         }
     });
+
+    $('#all-techs-button').click(function() {
+        var open = $(this).attr('data-open');
+
+        if (open == 0) {
+            $('#all-techs').slideDown();
+            $(this).find('span').html('<i class="fa fa-compress"></i> Hide');
+            $(this).attr('data-open', 1);
+        } else {
+            $('#all-techs').slideUp();
+            $(this).find('span').html('<i class="fa fa-expand"></i> Show all technologies');
+            $(this).attr('data-open', 0);
+        }
+    });
 });
 
 // Prompts the grids to do a layout just in case anything messed up
