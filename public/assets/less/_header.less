@@ -1,5 +1,5 @@
 #header {
-    margin-bottom: @v-base;
+    margin-bottom: @v-base * 2;
     height: @v-base * 2;
 
     // Bootstrap overrides
@@ -10,6 +10,7 @@
         height: @v-base * 2;
         min-height: @v-base * 2;
         line-height: @v-base;
+        border: 0;
     }
 
     .navbar-brand {
@@ -19,6 +20,7 @@
     .navbar-default {
         background-color: #fff;
         box-shadow: 0 0 10px #dadada;
+        margin: 0;
 
         .navbar-nav li {
             transition: background-color 0.25s;
@@ -52,10 +54,13 @@
         }
 
         .navbar-toggle {
-            margin-top: 4px;
-            height: 38px;
-            line-height: 18px;
-            width: 38px;
+            height: 35px;
+            line-height: 15px;
+            width: 35px;
+            padding: 2px;
+            margin: 0;
+            margin-top: 7px;
+            margin-right: 7px;
         }
     }
 
@@ -67,5 +72,16 @@
             position: absolute;
             top: 47px;
         }
+    }
+
+    .navbar-nav {
+        margin-top: 0;
+    }
+
+    #employment {
+        text-align: center;
+        background-color: #fb8e8e;
+        padding: 5px 0;
+        color: #fff;
     }
 }
