@@ -9,9 +9,9 @@ $container->addServiceProvider(Mattcavanagh\Portfolio\ServiceProvider\HttpMessag
 $container->addServiceProvider(Mattcavanagh\Portfolio\ServiceProvider\TemplateServiceProvider::class);
 
 $container->inflector(Mattcavanagh\Portfolio\Contract\ConfigAwareInterface::class)
-          ->invokeMethod('setConfig', ['config']);
+            ->invokeMethod('setConfig', ['config']);
 $container->inflector(Mattcavanagh\Portfolio\Contract\TemplateAwareInterface::class)
-          ->invokeMethod('setTemplateDriver', ['Twig_Environment']);
+            ->invokeMethod('setTemplateDriver', ['Twig_Environment']);
 
 $container->add(Mattcavanagh\Portfolio\Controller\MainController::class);
 
