@@ -12,7 +12,6 @@ function handleHover(el, direction) {
 
     // If the image is quite small, don't bother (e.g. kittyandco)
     if (scroll < 40) {
-        console.log('Not bothering...', scroll);
         return;
     }
 
@@ -21,10 +20,7 @@ function handleHover(el, direction) {
     }
 
     var remaining = scroll + parseInt(progress);
-
-    var pixelsPerSec = 100;
     var time = Math.abs(remaining / 100 * 500);
-    var ease = '';
 
     if (direction === 'up') {
         time = time / 2;
