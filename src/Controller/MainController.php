@@ -14,10 +14,10 @@ class MainController implements TemplateAwareInterface
     /**
      * Landing page.
      *
-     * @param  Psr\Http\Message\ServerRequestInterface $request
-     * @param  Psr\Http\Message\ResponseInterface      $response
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface      $response
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -29,10 +29,10 @@ class MainController implements TemplateAwareInterface
     /**
      * Portfolio page.
      *
-     * @param  Psr\Http\Message\ServerRequestInterface $request
-     * @param  Psr\Http\Message\ResponseInterface      $response
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface      $response
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function portfolio(ServerRequestInterface $request, ResponseInterface $response)
     {
