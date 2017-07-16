@@ -10,4 +10,4 @@ cache:
 install:
     - composer install
 script:
-    - phpunit
+    - phpunit --verbose --testdox
