@@ -4,6 +4,9 @@ php:
     - '7.1'
     - nightly
 dist: trusty
+cache:
+    directories:
+        - vendor
 install:
     - composer install
 script:
