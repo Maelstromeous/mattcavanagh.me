@@ -27,7 +27,7 @@ class HttpMessageServiceProvider extends AbstractServiceProvider
 
         $this->getContainer()->share('Zend\Diactoros\Response\SapiEmitter');
 
-        $this->getContainer()->share('Zend\Diactoros\ServerRequest', function () {
+        $this->getContainer()->share('Zend\Diactoros\ServerRequest', function() {
             return ServerRequestFactory::fromGlobals();
         });
     }

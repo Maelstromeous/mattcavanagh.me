@@ -32,7 +32,7 @@ class TemplateServiceProvider extends AbstractServiceProvider
             'email_text' => '&#109;&#097;&#116;&#116;&#064;&#109;&#097;&#116;&#116;&#099;&#097;&#118;&#097;&#110;&#097;&#103;&#104;&#046;&#109;&#101;'
         ];
 
-        $this->getContainer()->share('Twig_Environment', function () use ($globals, $config) {
+        $this->getContainer()->share('Twig_Environment', function() use ($globals, $config) {
             $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../template');
             $twig   = new Twig_Environment($loader, [
                 'cache' => $config['environment'] === 'production' ? __DIR__ . '/../../cache' : false,
