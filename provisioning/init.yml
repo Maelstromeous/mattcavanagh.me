@@ -1,0 +1,25 @@
+---
+
+- hosts: localhost
+  vars:
+    - USER: "{{ lookup('env', 'HOME') }}"
+    - devdir: "{{ playbook_dir }}/.."
+  tasks:
+    - name: Import hosts into /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        line: "127.0.0.1 {{ item }}"
+      with_items:
+        - dev.timeforteavintage.co.uk
+      become: yes
+
+    - name: Install bash alias for easy dev work
+      lineinfile:
+        path: "{{ USER }}/.bash_aliases"
+        line: "alias {{ item }}"
+      with_items:
+        - 'mattcavanagh="{{ devdir | realpath }}/"'
+        - 'mattcavanagh-start="ansible-playbook {{ devdir | realpath }}/provisioning/dev/main.yml"'
+        - 'mattcavanagh-stop="ansible-playbook {{ devdir | realpath }}/provisioning/dev/stop.yml"'
+        - 'mattcavanagh-deploy-production="ansible-playbook {{ devdir | realpath }}/provisioning/production/deploy.yml --ask-vault-pass"'
+        - 'mattcavanagh-deploy-staging="ansible-playbook {{ devdir | realpath }}/provisioning/staging/deploy.yml --ask-vault-pass"'

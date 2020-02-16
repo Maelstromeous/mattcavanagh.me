@@ -1,5 +1,5 @@
 /app/.env
 /app/vendor/
 vendor
-!public/assets/js/vendor
+!site/public/assets/js/vendor
 docker/logs

@@ -1,0 +1,145 @@
+---
+- hosts: localhost
+  vars_files:
+    - "{{ playbook_dir }}/../secrets.yml"
+  vars:
+    version: "{{ ansible_date_time.epoch }}"
+  tasks:
+    # Creds located in secrets.yml. Good luck cracking 256bit encryption without the password ;)
+    - name: Log into docker hub
+      docker_login:
+        username: "{{ dockerhub.username }}"
+        password: "{{ dockerhub.password }}"
+
+    - name: Build base docker image and upload to Docker Hub
+      docker_image:
+        name: maelstromeous/applications
+        state: present
+        source: build
+        tag: mattcavanagh-base
+        force_source: yes
+        force_tag: yes
+        push: yes
+        build:
+          pull: no
+          path: "{{ playbook_dir }}/../base"
+      register: base_build
+
+    - name: Build staging docker image and upload to Docker Hub
+      docker_image:
+        name: maelstromeous/applications
+        state: present
+        source: build
+        tag: "mattcavanagh-staging-{{ version }}"
+        force_source: yes
+        force_tag: yes
+        push: yes
+        timeout: 120
+        build:
+          pull: yes
+          path: "{{ playbook_dir }}/../../" # Root of the project for access to /site
+          dockerfile: "provisioning/staging/Dockerfile"
+      register: image_build
+
+    - name: Create K8s Service
+      k8s:
+        state: present
+        namespace: default
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: mattcavanagh-staging
+            labels:
+              app: mattcavanagh-staging
+          spec:
+            type: ClusterIP
+            selector:
+              app: mattcavanagh-staging
+            ports:
+              - port: 80
+                targetPort: 80
+
+    - name: Create K8s Deployment
+      k8s:
+        state: present
+        namespace: default
+        force: yes
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: mattcavanagh-staging
+            labels:
+              app: mattcavanagh-staging
+          spec:
+            replicas: 1
+            revisionHistoryLimit: 1
+            selector:
+              matchLabels:
+                app: mattcavanagh-staging
+            template:
+              metadata:
+                labels:
+                  app: mattcavanagh-staging
+              spec:
+                containers:
+                  - name: mattcavanagh-staging
+                    image: maelstromeous/applications:mattcavanagh-staging-{{ version }}
+                    ports:
+                      - containerPort: 80
+                    env:
+                      - name: ENVIRONMENT
+                        value: "staging"
+                      - name: VERSION
+                        value: "{{ version }}"
+                      - name: BASE_URL
+                        value: "https://staging.mattcavanagh.me"
+                imagePullSecrets:
+                  - name: regcred
+
+    - name: Create K8s LetsEncrypt certificate issuer
+      k8s:
+        state: present
+        namespace: default
+        definition:
+          apiVersion: cert-manager.io/v1alpha2
+          kind: ClusterIssuer
+          metadata:
+            name: mattcavanagh-letsencrypt-staging
+          spec:
+            acme:
+              email: matt@mattcavanagh.me
+              server: https://acme-v02.api.letsencrypt.org/directory
+              privateKeySecretRef:
+                name: mattcavanagh-letsencrypt-staging
+              solvers:
+                - http01:
+                    ingress:
+                      class: nginx
+
+    - name: Create K8s TLS Ingress using preexisting Load Balancer
+      k8s:
+        state: present
+        namespace: default
+        definition:
+          apiVersion: extensions/v1beta1
+          kind: Ingress
+          metadata:
+            name: mattcavanagh-staging-ingress
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              cert-manager.io/cluster-issuer: mattcavanagh-letsencrypt-staging
+              nginx.ingress.kubernetes.io/proxy-body-size: 10m
+          spec:
+            tls:
+              - hosts:
+                  - staging.mattcavanagh.me
+                secretName: mattcavanagh-letsencrypt-staging
+            rules:
+              - host: staging.mattcavanagh.me
+                http:
+                  paths:
+                    - backend:
+                        serviceName: mattcavanagh-staging
+                        servicePort: 80

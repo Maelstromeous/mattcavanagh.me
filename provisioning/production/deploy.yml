@@ -1,0 +1,152 @@
+---
+- hosts: localhost
+  vars_files:
+    - "{{ playbook_dir }}/../secrets.yml"
+  vars:
+    version: "{{ ansible_date_time.epoch }}"
+  tasks:
+    # Creds located in secrets.yml. Good luck cracking 256bit encryption without the password ;)
+    - name: Log into docker hub
+      docker_login:
+        username: "{{ dockerhub.username }}"
+        password: "{{ dockerhub.password }}"
+
+    - name: Build base docker image and upload to Docker Hub
+      docker_image:
+        name: maelstromeous/applications
+        state: present
+        source: build
+        tag: mattcavanagh-base
+        force_source: yes
+        force_tag: yes
+        push: yes
+        build:
+          pull: no
+          path: "{{ playbook_dir }}/../base"
+      register: base_build
+
+    - name: Build production docker image and upload to Docker Hub
+      docker_image:
+        name: maelstromeous/applications
+        state: present
+        source: build
+        tag: "mattcavanagh-production-{{ version }}"
+        force_source: yes
+        force_tag: yes
+        push: yes
+        timeout: 120
+        build:
+          pull: yes
+          path: "{{ playbook_dir }}/../../" # Root of the project for access to /site
+          dockerfile: "provisioning/production/Dockerfile"
+      register: image_build
+
+    - name: Create K8s Service
+      k8s:
+        state: present
+        namespace: default
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: mattcavanagh-production
+            labels:
+              app: mattcavanagh-production
+          spec:
+            type: ClusterIP
+            selector:
+              app: mattcavanagh-production
+            ports:
+              - port: 80
+                targetPort: 80
+
+    - name: Create K8s Deployment
+      k8s:
+        state: present
+        namespace: default
+        force: yes
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: mattcavanagh-production
+            labels:
+              app: mattcavanagh-production
+          spec:
+            replicas: 1
+            revisionHistoryLimit: 1
+            selector:
+              matchLabels:
+                app: mattcavanagh-production
+            template:
+              metadata:
+                labels:
+                  app: mattcavanagh-production
+              spec:
+                containers:
+                  - name: mattcavanagh-production
+                    image: maelstromeous/applications:mattcavanagh-production-{{ version }}
+                    ports:
+                      - containerPort: 80
+                    env:
+                      - name: ENVIRONMENT
+                        value: "production"
+                      - name: VERSION
+                        value: "{{ version }}"
+                      - name: BASE_URL
+                        value: "https://www.mattcavanagh.me"
+                imagePullSecrets:
+                  - name: regcred
+
+    - name: Create K8s LetsEncrypt certificate issuer
+      k8s:
+        state: present
+        namespace: default
+        definition:
+          apiVersion: cert-manager.io/v1alpha2
+          kind: ClusterIssuer
+          metadata:
+            name: mattcavanagh-letsencrypt-production
+          spec:
+            acme:
+              email: matt@mattcavanagh.me
+              server: https://acme-v02.api.letsencrypt.org/directory
+              privateKeySecretRef:
+                name: mattcavanagh-letsencrypt-production
+              solvers:
+                - http01:
+                    ingress:
+                      class: nginx
+
+    - name: Create K8s TLS Ingress using preexisting Load Balancer
+      k8s:
+        state: present
+        namespace: default
+        definition:
+          apiVersion: extensions/v1beta1
+          kind: Ingress
+          metadata:
+            name: mattcavanagh-production-ingress
+            annotations:
+              kubernetes.io/ingress.class: nginx
+              cert-manager.io/cluster-issuer: mattcavanagh-letsencrypt-production
+              nginx.ingress.kubernetes.io/proxy-body-size: 10m
+          spec:
+            tls:
+              - hosts:
+                  - mattcavanagh.me
+                  - www.mattcavanagh.me
+                secretName: mattcavanagh-letsencrypt-production
+            rules:
+              - host: mattcavanagh.me
+                http:
+                  paths:
+                    - backend:
+                        serviceName: mattcavanagh-production
+                        servicePort: 80
+              - host: www.mattcavanagh.me
+                http:
+                  paths:
+                    - backend:
+                        serviceName: mattcavanagh-production
+                        servicePort: 80

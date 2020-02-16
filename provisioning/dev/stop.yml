@@ -1,0 +1,19 @@
+---
+
+- hosts: localhost
+
+  tasks:
+    - name: Stop Dev container
+      docker_container:
+        name: timefortea-dev
+        state: stopped
+
+    - name: Stop DB container
+      docker_container:
+        name: timefortea-db
+        state: stopped
+
+    - name: Stop Redis container
+      docker_container:
+        name: timefortea-redis
+        state: stopped
