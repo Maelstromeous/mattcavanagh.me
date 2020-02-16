@@ -10,7 +10,7 @@
         path: /etc/hosts
         line: "127.0.0.1 {{ item }}"
       with_items:
-        - dev.timeforteavintage.co.uk
+        - dev.mattcavanagh.me
       become: yes
 
     - name: Install bash alias for easy dev work

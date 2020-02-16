@@ -1,11 +1,8 @@
 ---
 
 - hosts: localhost
-
   vars_files:
     - "{{ playbook_dir }}/../vars.yml"
-    - "{{ playbook_dir }}/../secrets.yml"
-
   tasks:
     - name: Install docker
       pip:
@@ -14,12 +11,12 @@
 
     - name: Create docker network
       docker_network:
-        name: timefortea
+        name: mattcavanagh
         state: present
 
     - name: Build Base image (grab a snickers)
       docker_image:
-        name: timefortea:base # local image
+        name: mattcavanagh:base # local image
         state: present
         source: build
         force_source: yes
@@ -32,7 +29,7 @@
         name: maelstromeous/applications
         state: present
         source: build
-        tag: timefortea-dev
+        tag: mattcavanagh-dev
         force_source: yes
         build:
           pull: no
@@ -40,8 +37,8 @@
 
     - name: Start Dev Image
       docker_container:
-        name: timefortea-dev
-        image: maelstromeous/applications:timefortea-dev
+        name: mattcavanagh-dev
+        image: maelstromeous/applications:mattcavanagh-dev
         state: started
         restart: yes
         volumes:
@@ -50,40 +47,8 @@
           - 80:80
           - 443:443
         networks:
-          - name: "timefortea"
+          - name: "mattcavanagh"
         env:
           ENVIRONMENT: "development"
           VERSION: "12345"
-          AWS_ACCESS_KEY_ID: "{{ aws.access_key }}"
-          AWS_SECRET_ACCESS_KEY: "{{ aws.secret_key }}"
-          MYSQL_USER: "root"
-          MYSQL_PASS: "foobar"
-          MYSQL_HOST: "timefortea-db"
-          MYSQL_DB: "timefortea"
-          REDIS_HOST: "timefortea-redis"
-          EMAIL_PASSWORD: "{{ email.password }}"
-
-    - name: Start Database
-      docker_container:
-        name: timefortea-db
-        image: mariadb:10.3
-        state: started
-        volumes:
-          - "{{ db_dir }}:/var/lib/mysql"
-        env:
-          MYSQL_ROOT_PASSWORD: foobar
-        ports:
-          - 3306:3306
-        networks:
-          - name: "timefortea"
-    - name: Start Redis
-      docker_container:
-        name: timefortea-redis
-        image: redis:5
-        state: started
-        volumes:
-          - "{{ redis_dir }}:/data"
-        ports:
-          - 6379:6379
-        networks:
-          - name: "timefortea"
+          BASE_URL: "http://dev.mattcavanagh.me"
