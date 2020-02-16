@@ -1,5 +1,3 @@
-/app/.env
-/app/vendor/
 vendor
 !site/public/assets/js/vendor
-docker/logs
+.idea
