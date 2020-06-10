@@ -1,7 +1,7 @@
 name: Build & Deploy Production
 on:
   release:
-    types: [published]
+    types: [ released ]
 jobs:
   build-docker-images:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
           repository: maelstromeous/applications
           dockerfile: provisioning/production/Dockerfile
           always_pull: true
-          tags: mattcavanagh-production-${{ github.ref }}
+          tags: mattcavanagh-production-${{ github.sha }}
 
   deploy-to-k8s:
     needs: build-docker-images
@@ -45,7 +45,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save my-cluster
 
       - name: Update the K8s production deployment file
-        run: sed -i 's|{{ version }}|${{ github.ref }}|' provisioning/production/k8s/deployment.yml
+        run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/production/k8s/deployment.yml
 
       - name: Apply production K8s Deployment
         run: kubectl apply -f provisioning/production/k8s/deployment.yml
