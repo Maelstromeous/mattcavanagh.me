@@ -8,12 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v1
         with:
-          path: './repo'
+          path: '${{ github.workspace }}./repo'
       - uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          dockerfile: ./repo/provisioning/base/Dockerfile
+          dockerfile: '${{ github.workspace }}/repo/provisioning/base/Dockerfile'
           repository: maelstromeous/applications
           tags: mattcavanagh-production-base
           tag_with_sha: true
@@ -21,6 +21,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          dockerfile: ./repo/provisioning/production/Dockerfile
+          dockerfile: '${{ github.workspace }}/repo/provisioning/production/Dockerfile'
           repository: maelstromeous/applications
           tags: mattcavanagh-production-${{ github.sha }}
