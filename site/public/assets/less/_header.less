@@ -1,3 +1,6 @@
+@green: '#6fec60';
+@red: '#fb8e8e';
+
 #header {
     margin-bottom: @v-base * 2;
     height: @v-base * 2;
@@ -80,8 +83,15 @@
 
     #employment {
         text-align: center;
-        background-color: #fb8e8e;
         padding: 5px 0;
         color: #fff;
+
+        .available {
+            background-color: @green;
+        }
+
+        .not-available {
+            background-color: @red;
+        }
     }
 }

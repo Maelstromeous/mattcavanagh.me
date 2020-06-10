@@ -14,12 +14,14 @@
       become: yes
 
     - name: Install bash alias for easy dev work
-      lineinfile:
+      blockinfile:
         path: "{{ USER }}/.bash_aliases"
-        line: "alias {{ item }}"
-      with_items:
-        - 'mattcavanagh="{{ devdir | realpath }}/"'
-        - 'mattcavanagh-start="ansible-playbook {{ devdir | realpath }}/provisioning/dev/main.yml"'
-        - 'mattcavanagh-stop="ansible-playbook {{ devdir | realpath }}/provisioning/dev/stop.yml"'
-        - 'mattcavanagh-deploy-production="ansible-playbook {{ devdir | realpath }}/provisioning/production/deploy.yml --ask-vault-pass"'
-        - 'mattcavanagh-deploy-staging="ansible-playbook {{ devdir | realpath }}/provisioning/staging/deploy.yml --ask-vault-pass"'
+        marker: "# {mark} MATTCAVANAGH ANSIBLE MANAGED BLOCK #"
+        block: |
+          alias mattcavanagh="{{ devdir | realpath }}/"
+          alias mattcavanagh-start="ansible-playbook {{ devdir | realpath }}/provisioning/dev/main.yml"
+          alias mattcavanagh-stop="ansible-playbook {{ devdir | realpath }}/provisioning/dev/stop.yml"
+          alias mattcavanagh-deploy-production="ansible-playbook {{ devdir | realpath }}/provisioning/production/deploy.yml --ask-vault-pass"
+          alias mattcavanagh-deploy-staging="ansible-playbook {{ devdir | realpath }}/provisioning/staging/deploy.yml --ask-vault-pass"
+          alias mattcavanagh-term="docker exec -it mattcavanagh-dev bash"
+          alias mattcavanagh-reprovision="sudo ansible-playbook {{ devdir | realpath }}/provisioning/init.yml"
