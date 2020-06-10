@@ -1,5 +1,5 @@
-@green: '#6fec60';
-@red: '#fb8e8e';
+@green: #69bd3e;
+@red: #fb8e8e;
 
 #header {
     margin-bottom: @v-base * 2;
@@ -80,18 +80,19 @@
     .navbar-nav {
         margin-top: 0;
     }
+}
 
-    #employment {
-        text-align: center;
-        padding: 5px 0;
-        color: #fff;
+#employment {
+    text-align: center;
+    padding: 5px 0;
+    color: #fff;
+    margin: 0 -15px (@spacing * 2) -15px;
 
-        .available {
-            background-color: @green;
-        }
+    &.available {
+        background-color: @green;
+    }
 
-        .not-available {
-            background-color: @red;
-        }
+    &.not-available {
+        background-color: @red;
     }
 }
