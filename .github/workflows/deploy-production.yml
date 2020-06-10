@@ -1,7 +1,8 @@
 name: Build & Deploy Production
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   create:
     tags:
       - v*

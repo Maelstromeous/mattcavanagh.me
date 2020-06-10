@@ -1,7 +1,8 @@
 name: Build & Deploy Staging
 on:
   push:
-    branches: [ staging ]
+    branches:
+      - staging
   create:
     tags:
       - v*
