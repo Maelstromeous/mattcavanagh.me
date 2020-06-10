@@ -1,7 +1,7 @@
 name: Ansible Linter
 on: [push, pull_request]
 jobs:
-  Ansible Lint:
+  ansible-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
