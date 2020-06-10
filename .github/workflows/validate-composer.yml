@@ -1,5 +1,4 @@
 name: PHP Composer Validation
-
 on:
   push:
     branches: [ master, staging ]
@@ -7,7 +6,6 @@ on:
     branches: [ master, staging ]
   release:
     types: [ created ]
-
 jobs:
   composer-validate:
     runs-on: ubuntu-latest
