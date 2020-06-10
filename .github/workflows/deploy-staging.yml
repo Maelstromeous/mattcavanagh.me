@@ -16,8 +16,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           path: provisioning/base
           repository: maelstromeous/applications
-          tags: mattcavanagh-staging-base
-          tag_with_sha: true
+          tags: mattcavanagh-base
 
       - name: Build staging image
         uses: docker/build-push-action@v1
