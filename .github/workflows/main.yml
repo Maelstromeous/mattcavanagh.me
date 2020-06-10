@@ -24,4 +24,3 @@ jobs:
           dockerfile: ./repo/provisioning/production/Dockerfile
           repository: maelstromeous/applications
           tags: mattcavanagh-production-${{ github.sha }}
-        working-directory: ../../
