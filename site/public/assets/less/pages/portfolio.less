@@ -1,16 +1,19 @@
+@icon-multi: 2.2;
+
 #portfolio-index {
-    #technologies {
+    .skills-icons {
         i, img {
-            margin: 0 3px;
+            margin: 2px 0;
             display: inline-block;
+            vertical-align: top;
         }
         i {
-            font-size: round(@v-base * 1.9);
+            font-size: round(@v-base * @icon-multi);
         }
 
         img {
-            width: round(@v-base * 1.9);
-            height: round(@v-base * 1.9);
+            width: round(@v-base * @icon-multi);
+            height: round(@v-base * @icon-multi);
         }
 
         .tech-icon-container {
