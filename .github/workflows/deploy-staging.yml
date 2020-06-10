@@ -20,7 +20,7 @@ jobs:
           tags: mattcavanagh-staging-base
           tag_with_sha: true
 
-      - name: Build production image
+      - name: Build staging image
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
