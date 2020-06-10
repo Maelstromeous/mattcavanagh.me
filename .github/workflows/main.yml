@@ -42,7 +42,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save my-cluster
 
       - name: Update the K8s production deployment file
-        run: sed -i 's|{{ version }}|$GITHUB_SHA|' provisioning/production/k8s/deployment.yml
+        run: sed -i 's|{{ version }}|$GITHUB_SHA|' $GITHUB_WORKSPACE/provisioning/production/k8s/deployment.yml
 
       - name: DEBUG echo production deployment file
         run: cat provisioning/production/k8s/deployment.yml
