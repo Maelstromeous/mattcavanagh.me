@@ -1,7 +1,7 @@
 {
-    "name": "mattcavanagh-portfolio",
-    "description": "Website project showcaseing Matt Cavanagh's development skillset and projects.",
-    "license": "CC-BY-NC-ND",
+    "name": "mattcavanagh/portfolio",
+    "description": "Website project showcasing Matt Cavanagh's development skillset and projects.",
+    "license": "proprietary",
     "require": {
         "league/container": "^2.2",
         "league/route": "^2.0",
