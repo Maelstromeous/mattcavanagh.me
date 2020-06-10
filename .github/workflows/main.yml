@@ -19,7 +19,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          path: provisioning/production
           repository: maelstromeous/applications
           always_pull: true
           tags: mattcavanagh-production-${{ github.sha }}
