@@ -41,9 +41,6 @@ jobs:
       - name: Save DO kubeconfig
         run: doctl kubernetes cluster kubeconfig save my-cluster
 
-      - name: Log into DO cluster with short lived creds
-        run: doctl registry login --expiry-seconds 300
-
       - name: Update the K8s production deployment file
         run: sed -i 's|{{ version }}|$GITHUB_SHA' provisioning/production/k8s/deployment.yml
 
