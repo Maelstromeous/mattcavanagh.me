@@ -1,0 +1,19 @@
+name: Ansible Linter
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Lint Ansible Playbook
+          uses: ansible/ansible-lint-action@master
+          with:
+            targets: |
+              provisioning/production/k8s/provision-cluster.yml
+              provisioning/staging/k8s/provision-cluster.yml
+              provisioning/init.yml
+            override-deps: |
+              ansible==2.9
+              ansible-lint==4.2.0
+            args: ""
