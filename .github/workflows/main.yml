@@ -1,7 +1,7 @@
 name: Build & Deploy Production
 on:
   push:
-    branches: [ actions-ci ]
+    branches: [ master ]
 jobs:
   build-docker-images:
     runs-on: ubuntu-latest
