@@ -28,26 +28,26 @@ jobs:
           always_pull: true
           tags: mattcavanagh-production-${{ github.sha }}
 
-      deploy-to-k8s:
-        needs: build-docker-images
-        runs-on: ubuntu-latest
-        steps:
-          - name: Install doctl
-            uses: digitalocean/action-doctl@v2
-            with:
-              token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+  deploy-to-k8s:
+    needs: build-docker-images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
 
-          - name: Save DO kubeconfig
-            run: doctl kubernetes cluster kubeconfig save my-cluster
+      - name: Save DO kubeconfig
+        run: doctl kubernetes cluster kubeconfig save my-cluster
 
-          - name: Log into DO cluster with short lived creds
-            run: doctl registry login --expiry-seconds 300
+      - name: Log into DO cluster with short lived creds
+        run: doctl registry login --expiry-seconds 300
 
-          - name: Update the K8s production deployment file
-            run: sed -i 's|{{ version }}|$GITHUB_SHA' provisioning/production/k8s/deployment.yml
+      - name: Update the K8s production deployment file
+        run: sed -i 's|{{ version }}|$GITHUB_SHA' provisioning/production/k8s/deployment.yml
 
-          - name: DEBUG echo production deployment file
-            run: cat provisioning/production/k8s/deployment.yml
-  #
-  #        - name: Deploy Production K8s Deployment
-  #          run: kubectl apply -f provisioning/production/k8s/deployment.yml
+      - name: DEBUG echo production deployment file
+        run: cat provisioning/production/k8s/deployment.yml
+#
+#        - name: Deploy Production K8s Deployment
+#          run: kubectl apply -f provisioning/production/k8s/deployment.yml
