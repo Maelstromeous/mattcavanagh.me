@@ -1,5 +1,8 @@
 name: Ansible Linter
-on: [push, pull_request]
+on:
+  push:
+  release:
+    types: [ created ]
 jobs:
   ansible-lint:
     runs-on: ubuntu-latest
