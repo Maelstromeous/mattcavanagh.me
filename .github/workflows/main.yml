@@ -25,6 +25,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: maelstromeous/applications
+          path: .
+          dockerfile: provisoning/production/Dockerfile
           always_pull: true
           tags: mattcavanagh-production-${{ github.sha }}
 
