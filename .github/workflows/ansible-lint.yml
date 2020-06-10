@@ -1,6 +1,7 @@
 name: Ansible Linter
 on:
   push:
+    branches: [ master, staging ]
   release:
     types: [ created ]
 jobs:
