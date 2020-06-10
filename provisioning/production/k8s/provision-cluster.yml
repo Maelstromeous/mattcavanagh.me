@@ -2,45 +2,7 @@
 - hosts: localhost
   vars_files:
     - "{{ playbook_dir }}/../secrets.yml"
-  vars:
-    version: "{{ ansible_date_time.epoch }}"
   tasks:
-    # Creds located in secrets.yml. Good luck cracking 256bit encryption without the password ;)
-    - name: Log into docker hub
-      docker_login:
-        username: "{{ dockerhub.username }}"
-        password: "{{ dockerhub.password }}"
-
-    - name: Build base docker image and upload to Docker Hub
-      docker_image:
-        name: maelstromeous/applications
-        state: present
-        source: build
-        tag: mattcavanagh-base
-        force_source: yes
-        force_tag: yes
-        push: yes
-        build:
-          pull: no
-          path: "{{ playbook_dir }}/../base"
-      register: base_build
-
-    - name: Build production docker image and upload to Docker Hub
-      docker_image:
-        name: maelstromeous/applications
-        state: present
-        source: build
-        tag: "mattcavanagh-production-{{ version }}"
-        force_source: yes
-        force_tag: yes
-        push: yes
-        timeout: 120
-        build:
-          pull: yes
-          path: "{{ playbook_dir }}/../../" # Root of the project for access to /site
-          dockerfile: "provisioning/production/Dockerfile"
-      register: image_build
-
     - name: Create K8s Service
       k8s:
         state: present
