@@ -26,6 +26,6 @@ spec:
             - name: VERSION
               value: "{{ version }}"
             - name: BASE_URL
-              value: "https://www.mattcavanagh.me"
+              value: "https://mattcavanagh.me"
       imagePullSecrets:
         - name: regcred
