@@ -9,20 +9,22 @@ jobs:
       - uses: actions/checkout@v1
   build-base-image:
     runs-on: ubuntu-latest
-    - uses: docker/build-push-action@v1
+    steps:
+      - uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          dockerfile: ../../provisioning/base/Dockerfile
+          repository: maelstromeous/applications
+          tags: mattcavanagh-production-base
+          tag_with_sha: true
+  build-production-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/build-push-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         dockerfile: ../../provisioning/base/Dockerfile
         repository: maelstromeous/applications
-        tags: mattcavanagh-production-base
-        tag_with_sha: true
-  build-production-image:
-    runs-on: ubuntu-latest
-    - uses: docker/build-push-action@v1
-    with:
-      username: ${{ secrets.DOCKERHUB_USERNAME }}
-      password: ${{ secrets.DOCKERHUB_TOKEN }}
-      dockerfile: ../../provisioning/base/Dockerfile
-      repository: maelstromeous/applications
-      tags: mattcavanagh-production-${{ github.sha }}
+        tags: mattcavanagh-production-${{ github.sha }}
