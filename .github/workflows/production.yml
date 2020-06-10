@@ -47,10 +47,7 @@ jobs:
       - name: Update the K8s production deployment file
         run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/production/k8s/deployment.yml
 
-      - name: DEBUG echo production deployment file
-        run: cat provisioning/production/k8s/deployment.yml
-
-      - name: Deploy Production K8s Deployment
+      - name: Apply production K8s Deployment
         run: kubectl apply -f provisioning/production/k8s/deployment.yml
 
       - name: Verify deployment
