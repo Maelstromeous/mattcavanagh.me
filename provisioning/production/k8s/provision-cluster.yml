@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars_files:
-    - "{{ playbook_dir }}/../secrets.yml"
+    - "{{ playbook_dir }}/../../secrets.yml"
   tasks:
     - name: Create K8s Service
       k8s:
@@ -47,16 +47,23 @@
               spec:
                 containers:
                   - name: mattcavanagh-production
-                    image: maelstromeous/applications:mattcavanagh-production-{{ version }}
+                    image: maelstromeous/applications:mattcavanagh-production-UNKNOWN
                     ports:
                       - containerPort: 80
                     env:
                       - name: ENVIRONMENT
                         value: "production"
                       - name: VERSION
-                        value: "{{ version }}"
+                        value: "UNKNOWN"
                       - name: BASE_URL
                         value: "https://www.mattcavanagh.me"
+                    resources:
+                      requests:
+                        memory: "32Mi"
+                        cpu: "25m"
+                      limits:
+                        memory: "64Mi"
+                        cpu: "250m"
                 imagePullSecrets:
                   - name: regcred
 
