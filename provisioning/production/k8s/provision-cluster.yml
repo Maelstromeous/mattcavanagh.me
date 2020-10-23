@@ -63,7 +63,7 @@
                         cpu: "25m"
                       limits:
                         memory: "64Mi"
-                        cpu: "250m"
+                        cpu: "25m"
                 imagePullSecrets:
                   - name: regcred
 
