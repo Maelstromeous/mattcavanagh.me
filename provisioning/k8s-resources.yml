@@ -33,7 +33,7 @@ spec:
             - name: VERSION
               value: "{{ version }}"
             - name: BASE_URL
-              value: "https://{{ environment }}.mattcavanagh.me"
+              value: "https://{{ hostname }}"
 ---
 apiVersion: v1
 kind: Service
@@ -56,10 +56,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "{{ environment }}.mattcavanagh.me"
+        - "{{ hostname }}"
       secretName: mattcavanagh-{{ environment }}-tls
   rules:
-    - host: "{{ environment }}.mattcavanagh.me"
+    - host: "{{ hostname }}"
       http:
         paths:
           - pathType: Prefix
@@ -73,7 +73,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ environment }}.mattcavanagh.me
+  name: {{ hostname }}
   namespace: mattcavanagh
 spec:
   secretName: mattcavanagh-{{ environment }}-tls
@@ -81,6 +81,6 @@ spec:
     name: letsencrypt
     kind: ClusterIssuer
     group: cert-manager.io
-  commonName: {{ environment }}.mattcavanagh.me
+  commonName: {{ hostname }}
   dnsNames:
-    - {{ environment }}.mattcavanagh.me
+    - {{ hostname }}

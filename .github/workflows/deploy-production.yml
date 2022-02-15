@@ -35,13 +35,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # This is what changes the docker container version. This updates it locally (to the action's workspace) and updates the template key {{ version }} based off the git SHA, as you've used in the build tag.
+      # Inject the template with the correct variables. {{ version }} refers to the Git SHA and is what changes the container version.
       - name: Update the K8s deployment file
-        run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/k8s-resources.yml
-
-      # Update the template with the environment
-      - name: Update the K8s deployment file environment
-        run: sed -i 's|{{ environment }}|production|' provisioning/k8s-resources.yml
+        run: sed -i -e 's|{{ version }}|${{ github.sha }}|' -e 's|{{ environment }}|production|' -e 's|{{ hostname }}|mattcavanagh.me|' provisioning/k8s-resources.yml
 
       # Apply the deployment, telling k8s to change the container version to the new one.
       - uses: actions-hub/kubectl@master
