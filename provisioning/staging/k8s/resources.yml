@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mattcavanagh
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mattcavanagh-staging
+  namespace: mattcavanagh
+  labels:
+    app: mattcavanagh-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mattcavanagh-staging
+  template:
+    metadata:
+      labels:
+        app: mattcavanagh-staging
+        version: {{ version }}
+    spec:
+      containers:
+        - name: application
+          image: maelstromeous/applications:mattcavanagh-staging-{{ version }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mattcavanagh-staging
+  namespace: mattcavanagh
+spec:
+  selector:
+    app: mattcavanagh-staging
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mattcavanagh-staging
+  namespace: mattcavanagh
+spec:
+  tls:
+    - hosts:
+        - "staging.mattcavanagh.me"
+      secretName: mattcavanagh-staging-tls
+  rules:
+    - host: "staging.mattcavanagh.me"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: mattcavanagh-staging
+                port:
+                  number: 80
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: staging.mattcavanagh.me
+  namespace: mattcavanagh
+spec:
+  secretName: mattcavanagh-staging-tls
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+    group: cert-manager.io
+  commonName: staging.mattcavanagh.me
+  dnsNames:
+    - staging.mattcavanagh.me

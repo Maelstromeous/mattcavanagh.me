@@ -3,11 +3,11 @@ on:
   push:
     branches: [ staging ]
 jobs:
-  build-docker-images:
+  build-docker-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Build base image
         uses: docker/build-push-action@v1
@@ -29,25 +29,26 @@ jobs:
           tags: mattcavanagh-staging-${{ github.sha }}
 
   deploy-to-k8s:
-    needs: build-docker-images
+    needs: build-docker-image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
+      # This is what changes the docker container version. This updates it locally (to the action's workspace) and updates the template key {{ version }} based off the git SHA, as you've used in the build tag.
+      - name: Update the K8s deployment file
+        run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/staging/k8s/resources.yml
+
+      # Apply the deployment, telling k8s to change the container version to the new one.
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+          args: apply -f provisioning/staging/k8s/resources.yml
 
-      - name: Save DO kubeconfig
-        run: doctl kubernetes cluster kubeconfig save my-cluster
-
-      - name: Update the K8s staging deployment file
-        run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/staging/k8s/deployment.yml
-
-      - name: Apply staging K8s Deployment
-        run: kubectl apply -f provisioning/staging/k8s/deployment.yml
-
-      - name: Verify deployment
-        run: kubectl rollout status deployment/mattcavanagh-staging
+      # Outputs the rollout status and returns a 0 signal (thus completing the workflow) once it's rolled out.
+      - uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: rollout status deployment/mattcavanagh-staging
