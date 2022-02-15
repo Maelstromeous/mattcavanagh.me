@@ -23,7 +23,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ hostname }}
+  name: mattcavanagh-{{ environment }}
   namespace: mattcavanagh
 spec:
   secretName: mattcavanagh-{{ environment }}-tls
