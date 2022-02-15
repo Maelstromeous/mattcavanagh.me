@@ -37,7 +37,7 @@ jobs:
 
       # Inject the templates with the correct variables. {{ version }} refers to the Git SHA and is what changes the container version.
       - name: Update the K8s common resource file
-        run: sed -is -e 's|{{ version }}|${{ github.sha }}|' -e 's|{{ environment }}|staging|' -e 's|{{ hostname }}|staging.mattcavanagh.me|' provisioning/*.yml
+        run: sed -is -e 's|{{ version }}|${{ github.sha }}|' -e 's|{{ environment }}|staging|' -e 's|{{ hostname }}|staging.mattcavanagh.me|' provisioning/k8s/*.yml
 
       # Apply the common resources, telling k8s to change the container version to the new one.
       - uses: actions-hub/kubectl@master
