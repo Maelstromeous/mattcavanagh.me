@@ -37,14 +37,18 @@ jobs:
 
       # This is what changes the docker container version. This updates it locally (to the action's workspace) and updates the template key {{ version }} based off the git SHA, as you've used in the build tag.
       - name: Update the K8s deployment file
-        run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/staging/k8s/resources.yml
+        run: sed -i 's|{{ version }}|${{ github.sha }}|' provisioning/k8s-resources.yml
+
+      # Update the template with the environment
+      - name: Update the K8s deployment file environment
+        run: sed -i 's|{{ environment }}|staging|' provisioning/k8s-resources.yml
 
       # Apply the deployment, telling k8s to change the container version to the new one.
       - uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: apply -f provisioning/staging/k8s/resources.yml
+          args: apply -f provisioning/k8s-resources.yml
 
       # Outputs the rollout status and returns a 0 signal (thus completing the workflow) once it's rolled out.
       - uses: actions-hub/kubectl@master

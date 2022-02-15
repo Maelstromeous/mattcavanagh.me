@@ -6,43 +6,43 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mattcavanagh-staging
+  name: mattcavanagh-{{ environment }}
   namespace: mattcavanagh
   labels:
-    app: mattcavanagh-staging
+    app: mattcavanagh-{{ environment }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mattcavanagh-staging
+      app: mattcavanagh-{{ environment }}
   template:
     metadata:
       labels:
-        app: mattcavanagh-staging
+        app: mattcavanagh-{{ environment }}
         version: {{ version }}
     spec:
       containers:
         - name: application
-          image: maelstromeous/applications:mattcavanagh-staging-{{ version }}
+          image: maelstromeous/applications:mattcavanagh-{{ environment }}-{{ version }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
           env:
             - name: ENVIRONMENT
-              value: "staging"
+              value: "{{ environment }}"
             - name: VERSION
               value: "{{ version }}"
             - name: BASE_URL
-              value: "https://staging.mattcavanagh.me"
+              value: "https://{{ environment }}.mattcavanagh.me"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mattcavanagh-staging
+  name: mattcavanagh-{{ environment }}
   namespace: mattcavanagh
 spec:
   selector:
-    app: mattcavanagh-staging
+    app: mattcavanagh-{{ environment }}
   ports:
     - protocol: TCP
       port: 80
@@ -51,36 +51,36 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mattcavanagh-staging
+  name: mattcavanagh-{{ environment }}
   namespace: mattcavanagh
 spec:
   tls:
     - hosts:
-        - "staging.mattcavanagh.me"
-      secretName: mattcavanagh-staging-tls
+        - "{{ environment }}.mattcavanagh.me"
+      secretName: mattcavanagh-{{ environment }}-tls
   rules:
-    - host: "staging.mattcavanagh.me"
+    - host: "{{ environment }}.mattcavanagh.me"
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: mattcavanagh-staging
+                name: mattcavanagh-{{ environment }}
                 port:
                   number: 80
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: staging.mattcavanagh.me
+  name: {{ environment }}.mattcavanagh.me
   namespace: mattcavanagh
 spec:
-  secretName: mattcavanagh-staging-tls
+  secretName: mattcavanagh-{{ environment }}-tls
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
     group: cert-manager.io
-  commonName: staging.mattcavanagh.me
+  commonName: {{ environment }}.mattcavanagh.me
   dnsNames:
-    - staging.mattcavanagh.me
+    - {{ environment }}.mattcavanagh.me
