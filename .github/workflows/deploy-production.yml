@@ -9,14 +9,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-#      - name: Build base image
-#        uses: docker/build-push-action@v1
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#          path: provisioning/base
-#          repository: maelstromeous/applications
-#          tags: mattcavanagh-base
+      - name: Build base image
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          path: provisioning/base
+          repository: maelstromeous/applications
+          tags: mattcavanagh-base
 
       - name: Build production image
         uses: docker/build-push-action@v1
