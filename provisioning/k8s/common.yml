@@ -11,7 +11,7 @@ metadata:
   labels:
     app: mattcavanagh-{{ environment }}
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: mattcavanagh-{{ environment }}
@@ -21,6 +21,13 @@ spec:
         app: mattcavanagh-{{ environment }}
         version: {{ version }}
     spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: mattcavanagh-{{ environment }}
       containers:
         - name: application
           image: maelstromeous/applications:mattcavanagh-{{ environment }}-{{ version }}
@@ -39,7 +46,7 @@ spec:
               cpu: "25m"
               memory: "32Mi"
             limits:
-              cpu: "25m"
+              cpu: "50m"
               memory: "64Mi"
 ---
 apiVersion: v1
