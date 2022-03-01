@@ -15,17 +15,17 @@ spec:
   selector:
     matchLabels:
       app: mattcavanagh-{{ environment }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
+    type: RollingUpdate
   template:
     metadata:
       labels:
         app: mattcavanagh-{{ environment }}
         version: {{ version }}
     spec:
-      strategy:
-        rollingUpdate:
-          maxSurge: 2
-          maxUnavailable: 2
-        type: RollingUpdate
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
