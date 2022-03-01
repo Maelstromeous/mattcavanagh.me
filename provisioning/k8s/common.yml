@@ -21,10 +21,15 @@ spec:
         app: mattcavanagh-{{ environment }}
         version: {{ version }}
     spec:
+      strategy:
+        rollingUpdate:
+          maxSurge: 2
+          maxUnavailable: 2
+        type: RollingUpdate
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: ScheduleAnyway
+          whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
               app: mattcavanagh-{{ environment }}
