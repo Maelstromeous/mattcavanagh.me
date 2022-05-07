@@ -4,6 +4,7 @@ metadata:
   name: mattcavanagh-{{ environment }}
   namespace: mattcavanagh
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - "{{ hostname }}"

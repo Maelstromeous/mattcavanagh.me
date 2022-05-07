@@ -39,7 +39,7 @@ jobs:
       - name: Update the K8s common resource file
         run: |
           sed -is -e 's|{{ version }}|${{ github.sha }}|' \
-          -e 's|{{ replicas }}|3|' \
+          -e 's|{{ replicas }}|2|' \
           -e 's|{{ environment }}|production|' \
           -e 's|{{ hostname }}|mattcavanagh.me|' \
           provisioning/k8s/*.yml
