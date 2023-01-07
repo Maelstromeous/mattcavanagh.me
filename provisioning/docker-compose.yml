@@ -2,7 +2,7 @@ version: "3"
 services:
   production:
     container_name: mattcavanagh-production
-    image: maelstromeous/applications:mattcavanagh-production-latest
+    image: maelstromeous/mattcavanagh:production-latest
     restart: unless-stopped
     ports:
       - 8100:80
@@ -10,7 +10,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
   staging:
     container_name: mattcavanagh-staging
-    image: maelstromeous/applications/mattcavanagh-staging-latest
+    image: maelstromeous/mattcavanagh:staging-latest
     restart: unless-stopped
     ports:
       - 8101:80

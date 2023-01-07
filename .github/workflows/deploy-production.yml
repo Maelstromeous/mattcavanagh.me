@@ -49,8 +49,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            maelstromeous/applications:mattcavanagh-production-${{ github.sha }}
-            maelstromeous/applications:mattcavanagh-production-latest
+            maelstromeous/mattcavanagh:production-${{ github.sha }}
+            maelstromeous/mattcavanagh:production-latest
           build-args: |
             BUILD_SHA=${{ env.SHORT_SHA }}
             BUILT=${{ env.NOW }}
