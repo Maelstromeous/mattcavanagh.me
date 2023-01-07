@@ -6,6 +6,9 @@ services:
     restart: unless-stopped
     ports:
       - 8100:80
+    environment:
+      ENVIRONMENT: production
+      BASE_URL: mattcavanagh.me
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
   staging:
@@ -14,5 +17,8 @@ services:
     restart: unless-stopped
     ports:
       - 8101:80
+    environment:
+      ENVIRONMENT: staging
+      BASE_URL: staging.mattcavanagh.me
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
