@@ -8,7 +8,7 @@ services:
       - 8100:80
     environment:
       ENVIRONMENT: production
-      BASE_URL: mattcavanagh.me
+      BASE_URL: https://mattcavanagh.me
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
   staging:
@@ -19,6 +19,6 @@ services:
       - 8101:80
     environment:
       ENVIRONMENT: staging
-      BASE_URL: staging.mattcavanagh.me
+      BASE_URL: https://staging.mattcavanagh.me
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
