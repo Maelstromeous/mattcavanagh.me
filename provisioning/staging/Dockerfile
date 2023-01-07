@@ -1,5 +1,8 @@
 FROM maelstromeous/mattcavanagh:base
 
+ARG VERSION="foo"
+ENV VERSION="$VERSION"
+
 USER www-data
 
 COPY provisioning/staging/files/nginx /etc/nginx/conf.d
