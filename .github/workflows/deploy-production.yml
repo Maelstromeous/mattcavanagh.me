@@ -52,6 +52,4 @@ jobs:
             maelstromeous/mattcavanagh:production-${{ github.sha }}
             maelstromeous/mattcavanagh:production-latest
           build-args: |
-            BUILD_SHA=${{ env.SHORT_SHA }}
-            BUILT=${{ env.NOW }}
             VERSION=${{ steps.latesttag.outputs.tag }}

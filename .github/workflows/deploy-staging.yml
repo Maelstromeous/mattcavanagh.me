@@ -52,6 +52,4 @@ jobs:
             maelstromeous/mattcavanagh:staging-${{ github.sha }}
             maelstromeous/mattcavanagh:staging-latest
           build-args: |
-            BUILD_SHA=${{ env.SHORT_SHA }}
-            BUILT=${{ env.NOW }}
             VERSION=${{ steps.latesttag.outputs.tag }}
