@@ -1,4 +1,4 @@
-FROM maelstromeous/applications:mattcavanagh-base
+FROM maelstromeous/mattcavanagh:base
 
 USER www-data
 

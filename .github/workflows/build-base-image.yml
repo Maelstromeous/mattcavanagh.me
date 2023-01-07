@@ -42,4 +42,4 @@ jobs:
           file: provisioning/base/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: maelstromeous/applications:mattcavanagh-base
+          tags: maelstromeous/mattcavanagh:base
