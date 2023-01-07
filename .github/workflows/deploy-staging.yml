@@ -52,4 +52,4 @@ jobs:
             maelstromeous/mattcavanagh:staging-${{ github.sha }}
             maelstromeous/mattcavanagh:staging-latest
           build-args: |
-            VERSION=${{ steps.latesttag.outputs.tag }}
+            VERSION=${{ github.sha }}
