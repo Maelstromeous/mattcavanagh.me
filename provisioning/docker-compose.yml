@@ -1,6 +1,6 @@
 version: "3"
 services:
-  production:
+  mattcavanagh-production:
     container_name: mattcavanagh-production
     image: maelstromeous/mattcavanagh:production-latest
     restart: unless-stopped
@@ -11,7 +11,7 @@ services:
       BASE_URL: https://mattcavanagh.me
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-  staging:
+  mattcavanagh-staging:
     container_name: mattcavanagh-staging
     image: maelstromeous/mattcavanagh:staging-latest
     restart: unless-stopped
