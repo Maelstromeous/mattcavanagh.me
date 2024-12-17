@@ -1,4 +1,7 @@
-FROM maelstromeous/applications:mattcavanagh-base
+FROM maelstromeous/mattcavanagh:base
+
+ARG VERSION="foo"
+ENV VERSION="$VERSION"
 
 USER www-data
 
