@@ -1,0 +1,24 @@
+version: "3"
+services:
+  mattcavanagh-production:
+    container_name: mattcavanagh-production
+    image: maelstromeous/mattcavanagh:production-latest
+    restart: unless-stopped
+    ports:
+      - 8100:80
+    environment:
+      ENVIRONMENT: production
+      BASE_URL: https://mattcavanagh.me
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+  mattcavanagh-staging:
+    container_name: mattcavanagh-staging
+    image: maelstromeous/mattcavanagh:staging-latest
+    restart: unless-stopped
+    ports:
+      - 8101:80
+    environment:
+      ENVIRONMENT: staging
+      BASE_URL: https://staging.mattcavanagh.me
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
