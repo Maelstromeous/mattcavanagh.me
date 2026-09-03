@@ -2,3 +2,7 @@ vendor
 !site/public/assets/js/vendor
 node_modules
 /.idea/
+
+# Claude Code local settings (memories in .claude/memory ARE committed)
+.claude/settings.local.json
+.claude/worktrees/
