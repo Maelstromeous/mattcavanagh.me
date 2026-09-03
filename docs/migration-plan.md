@@ -1,14 +1,15 @@
 # Migration plan: PHP to a static Vue 3 site on Vercel
 
-Status: **draft, decisions made, awaiting final approval**. Written 2026-09-03 from the review in
-[`review-2026-09.md`](review-2026-09.md), revised the same day after review. Nothing in this plan
-has been built yet.
+Status: **approved 2026-09-03**. Written from the review in [`review-2026-09.md`](review-2026-09.md),
+revised after my review and a Codex adversarial review the same day (verdict RETHINK; one major
+finding on image caching, the rest wording and sequencing, all folded in below). Build starts with
+Phase 1.
 
 ## Tasks
 
 Open tasks, in the order they should run. A line is enough to recreate the task cold.
 
-1. Approve this revised plan.
+1. ~~Approve this revised plan.~~ Done 2026-09-03.
 2. Confirm the analytics choice (D4). Cloudflare Web Analytics is the default until then.
 3. Create the `vue-rebuild` branch and scaffold the new app at the repo root: pnpm, Vite, Vue 3, TypeScript, Tailwind CSS v4, ESLint (neostandard), Vitest, `.nvmrc`, `vercel.json`, a CI workflow. Placeholder pages only.
 4. Link the repo to a Vercel project and point a preview deployment at the `vue-rebuild` branch (my side). Claude inspects the preview, or a local browser, from then on.
@@ -17,18 +18,19 @@ Open tasks, in the order they should run. A line is enough to recreate the task 
 7. Style with Tailwind: theme tokens from the LESS variables, then each component. Match the live site closely; minor drift from Tailwind defaults is accepted, a redesign is not.
 8. Replace the jQuery behaviours: tab switching, mobile nav toggle, hover-scroll previews, tooltips. Grid layout is CSS grid, no packing script.
 9. Fix meta, SEO and accessibility: per-page title and `og:url`, `name="description"`, alt text, `aria-label`s, `rel="noopener"`, working `manifest.json`, trimmed favicon set.
-10. Apply the content decisions: show footer on portfolio only, link the Professional tab, fix spelling, drop Twitter for LinkedIn, remove the six dead project links, update the four redirected links, give `psb` the featured border.
-11. Write the visual acceptance check: screenshot live and preview at 1280/768/375 for `/` and `/portfolio` and compare side by side.
-12. Cut over: I point Cloudflare at the Vercel deployment, then delete `site/`, `provisioning/` (vault included), the five old workflows, and the compiled/unused assets.
-13. Post-cutover clean-up on my side: remove the two compose services from the host, delete the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repo secrets, archive the Docker Hub repository, close the twelve open bot PRs, delete the `staging`, `dev`, `renovate/*` and `dependabot/*` branches.
+10. Apply the content decisions: show footer on portfolio only, link the Professional tab, fix spelling, drop Twitter for LinkedIn, remove the six dead project links, update the four redirected links, upgrade the six plain-http links and the Guinness link to https, give `psb` the featured border.
+11. Baseline live first (Lighthouse, response headers, page weight), then write the acceptance check: screenshot live and preview at 1280/768/375 for `/` and `/portfolio` and compare side by side.
+12. Cut over, in this order: (a) merge `vue-rebuild` to `master` with `site/` and `provisioning/` still present; (b) I set `master` as the Vercel production branch, attach the apex and `www` domains and confirm they verify; (c) I switch the Cloudflare origin to Vercel; (d) run the post-cutover curl checklist below; (e) leave the old containers running for a week as the rollback (repoint Cloudflare); (f) then delete `site/`, `provisioning/` (vault included), the five old workflows and the compiled/unused assets in a follow-up PR.
+13. Post-cutover clean-up on my side, after the week: remove the two compose services from the host, delete the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repo secrets, archive the Docker Hub repository, close the twelve open bot PRs, delete the `staging`, `dev`, `renovate/*` and `dependabot/*` branches.
 14. Update the README and `CLAUDE.md` for the new stack and mark this plan done.
 
 ## Goal
 
 Replace the PHP 7 / Twig / LESS / Grunt / Docker stack with a static site that Vercel builds from
 this repo. Same two pages, same shape, zero server-side code, as few dependencies as sensible. The
-trigger is dependency security noise on a six-year-old stack, so "no runtime dependencies at all"
-is the bar for the deployed site.
+trigger is dependency security noise on a six-year-old stack, so "no server-side runtime at all"
+is the bar for the deployed site. Browser-side code (Vue, the icon packs) is unavoidable and is
+kept small.
 
 Constraints:
 
@@ -68,7 +70,7 @@ If a third page ever appears this still scales; if the site ever needs client-si
 | Framework | Vue 3 + TypeScript, `<script setup>` | |
 | Build | Vite, `@vitejs/plugin-vue`, `vue-tsc` | Vercel auto-detects the Vite preset, output `dist/` |
 | Styles | Tailwind CSS v4 via `@tailwindcss/vite`; one `src/styles/main.css` with `@import "tailwindcss"` and an `@theme` block for the site's tokens | v4 is CSS-first: no `tailwind.config.js`, no PostCSS config. v4 is not designed to sit behind Sass, so there is no SCSS in this stack; the handful of custom rules (hover-scroll, tooltip bubble) are plain CSS in the same file |
-| UI primitives | `reka-ui` for Tabs and Tooltip | Headless, accessible, Vue-native, already in `albionroads`. Gives correct ARIA and keyboard handling for free; Tailwind styles it. If pre-styled components are wanted instead, `daisyUI` is the Tailwind-native alternative, at the cost of a stronger visual shift |
+| UI primitives | `reka-ui` for Tabs and Tooltip | Headless, accessible, Vue-native, already in `albionroads`. Gives correct ARIA and keyboard handling for free; Tailwind styles it. Kept after review: heavier than strictly needed, and worth it for the accessibility |
 | Icons: general | `@fortawesome/fontawesome-free` from npm, self-hosted | Replaces the cdnjs FA 5.12.1 link. FA 6+ keeps `fas`/`fab` and old names as aliases; verify each of the 8 icons used |
 | Icons: tech | `devicon` from npm, self-hosted | Replaces the dead rawgit link. Class names changed between devicon versions (e.g. AWS); verify all 20 against the installed version, fall back to inline SVG where a name is gone |
 | Lint | ESLint flat config via `neostandard` + `eslint-plugin-vue` + `@vue/eslint-config-typescript` | Copy the working config from `satisfactory-factories/web` |
@@ -86,10 +88,11 @@ native replacement (see "Behaviours").
 ├── index.html                  landing entry (title, meta, mounts src/pages/landing.ts)
 ├── portfolio.html              portfolio entry
 ├── public/
-│   ├── assets/img/...          favicons, meta.png, tech logos, aws/, portfolio/previews/
+│   ├── assets/img/...          favicons, meta.png, manifest icons: files whose URL must stay stable
 │   ├── manifest.json           fixed name and icon paths
 │   └── favicon.ico             at the root so browsers find it
 ├── src/
+│   ├── assets/img/             previews/, aws/, tech logos: imported by the data files, so Vite hashes them
 │   ├── pages/                  landing.ts / portfolio.ts (createApp + mount)
 │   ├── components/             SiteHeader, EmploymentBanner, SiteFooter, LandingHero,
 │   │                           SkillsIcons, ProjectTabs, ProjectGrid, ProjectCard, TechIcon
@@ -105,8 +108,15 @@ native replacement (see "Behaviours").
 └── docs/
 ```
 
-Public asset paths stay exactly as they are today (`/assets/img/...`) so nothing that links to
-the current `og:image` or favicons breaks.
+Two kinds of image, handled differently:
+
+- **Stable-URL files** (favicons, touch icons, `meta.png`, manifest icons) stay in `public/assets/img/`
+  at today's paths, so nothing that links to the current `og:image` or favicons breaks. Vite copies
+  `public/` verbatim with no hashing, so these get a short cache (one day), not `immutable`.
+- **Content images** (card previews, AWS and tech logos) live in `src/assets/img/` and are imported
+  from the data files. Vite hashes their filenames, so they can be cached for a year and a changed
+  preview shows up on the next deploy. Hashed output goes to `/_app/` (`build.assetsDir`), which
+  keeps it apart from the unhashed `/assets/` tree.
 
 `site/` and `provisioning/` are deleted at cutover, not before. Until then the new app lives at
 the repo root next to them; the two `package.json` files do not interact.
@@ -125,7 +135,8 @@ header/landing links, the CV URL, the employment banner text and the obfuscated 
 ```ts
 // src/data/projects.ts (shape only)
 export interface Project {
-  id: string            // 'ps2alerts'; also names the preview image
+  id: string            // 'ps2alerts'
+  preview: string       // imported image URL; the file is renamed to match the id when the data file is written
   title: string
   url?: string          // absent when the site is dead or never existed
   linkText?: string     // 'PSB Archive' overrides the default of showing the host
@@ -146,7 +157,10 @@ What that buys:
 - **Adding or editing a project is a data edit**, not a template copy-paste. The typo class of
   bugs the review found (a card in the Featured tab without the featured border, a card whose
   image name is spelt differently from its id, two cards missing the cache-buster) cannot happen:
-  `featured` is one boolean, the image is derived from `id`, and Vite hashes assets.
+  `featured` is one boolean, the preview is an import that fails the build if the file is missing,
+  and Vite hashes imported images. The two mismatched files today (`maynellsfencing.jpg`,
+  `timeforteav2.jpg`) are renamed to their card ids when the data file is written; the old v1
+  `timefortea.jpg` is deleted.
 - **The compiler checks it.** A misspelt tech icon id or a missing field is a type error at build
   time, not a broken icon in production.
 - **Tests can assert invariants** over the data: every `id` has a preview image on disk, every
@@ -181,8 +195,8 @@ The obfuscated email stays obfuscated: keep it as HTML entities in `site.ts`, re
 
 | Today (jQuery) | Rebuild |
 | --- | --- |
-| Bootstrap tooltips on 140 `title` attributes | `reka-ui` Tooltip around each icon, styled with Tailwind, bottom placement in the header only. Keeps `title` as the source text. |
-| Bootstrap tab switching | `reka-ui` Tabs in `ProjectTabs`, four triggers (All, Featured, Personal, Professional), one `ProjectGrid` per content pane. |
+| Bootstrap tooltips on 140 `title` attributes | `reka-ui` Tooltip around each icon, styled with Tailwind, bottom placement in the header only. The tooltip text comes from the data file; no `title` attribute, so there is no second native tooltip. Icons carry `aria-label` for screen readers. |
+| Bootstrap tab switching | `reka-ui` Tabs in `ProjectTabs`, four triggers (All, Featured, Personal, Professional). **One** `ProjectGrid`, fed the active tab's filtered list. Cards and images render once; hidden tabs render nothing. |
 | Masonry packing (with the "layout twice" hack) | CSS grid, no script (D11). |
 | Hover-scroll of the preview image | `useHoverScroll`: on mount measure `img.height - container.height`; on hover set `transform: translateY(-overflow)` with `transition-duration` from the same 500 ms per 100 px rule, half on leave. Skip when overflow < 40 px, as today. |
 | Bootstrap navbar collapse | `ref(open)` toggling Tailwind classes. |
@@ -221,8 +235,12 @@ h1, then h2 for card titles styled as today's h3.
       ]
     },
     {
-      "source": "/assets/(.*)",
+      "source": "/_app/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     }
   ]
 }
@@ -251,6 +269,10 @@ Anything else gets Vercel's default 404.
 
 ### Acceptance
 
+Before building anything, **baseline live**: Lighthouse scores for both pages, total transferred
+bytes, and the full response header set through Cloudflare. Numbers in this section are compared
+against that baseline, not against guesses.
+
 1. Screenshot live `/` and `/portfolio` at 1280, 768 and 375 px wide (puppeteer-core, as in
    `satisfactory-factories/web/testing/browser`).
 2. Screenshot the Vercel preview at the same widths.
@@ -258,8 +280,15 @@ Anything else gets Vercel's default 404.
    Anything structural (missing element, wrong order, wrong colour family) is a bug.
 4. Manual: hover a card, switch all four tabs, open the mobile nav, tab through the header with a
    keyboard, check tooltips announce.
-5. Lighthouse on the preview: accessibility and best-practices markedly better than live (no dead
-   CDN, no missing alt, no deprecated headers); performance better with 200 KB less CSS/JS.
+5. Lighthouse on the preview: accessibility and best-practices better than the baseline;
+   transferred bytes lower than the baseline.
+6. **Post-cutover curl checklist**, run against the real domain through Cloudflare:
+   `/` 200; `/portfolio` 200 direct (not via `/`); `/portfolio/` and `/portfolio.html` behave as
+   `cleanUrls` intends; `/nonexistent` 404; `www` 301s to apex with path kept; `/manifest.json`
+   200 and its icon paths 200; `/assets/img/meta.png` 200; every header in `vercel.json` present
+   plus Cloudflare's HSTS; CSP has no violations in the browser console, including the analytics
+   beacon if injected.
+7. Rollback is "repoint Cloudflare at the old host", which stays up for a week after cutover.
 
 ## Decisions
 
@@ -279,7 +308,7 @@ Made on 2026-09-03 unless marked open.
 | D10 | `psb` is in Featured without the featured border | **Give it the border.** Its archive link is dead (D6), so the link goes and the card stays. |
 | D11 | Column packing | **CSS grid, no packing script.** Minor row alignment change accepted. |
 | D12 | Cloudflare currently fronts the domain | **Cloudflare stays.** I point it at the Vercel deployment myself; DNS does not move. Vercel gets the origin headers, Cloudflare keeps HSTS, TLS and the `www` redirect. SSL mode Full (strict). |
-| D13 | `provisioning/secrets.yml` vault and the two Docker Hub secrets | **All dead.** Vault deleted with `provisioning/` at cutover; I delete the two repo secrets myself afterwards. |
+| D13 | `provisioning/secrets.yml` vault and the two Docker Hub secrets | **All dead, on my own knowledge** (the audit could only say "almost certainly orphaned" from the repo). Vault deleted with `provisioning/` after cutover; I delete the two repo secrets myself afterwards. |
 
 ### D6: link check results
 
@@ -298,7 +327,7 @@ Checked with a browser user agent, following redirects, 15 s timeout.
 | psb Guinness | guinnessworldrecords.com article | 200 | Keep, upgrade to https |
 | nsc | nanitesystemscomic.com | **no response** | Remove link |
 | makinsonmotors | http makinsonmotors.com | 200, https | Upgrade to https |
-| scriptmedia | http www.scriptmedia.co.uk | 200, redirects to http apex, no https | Update to `http://scriptmedia.co.uk`, or remove; my call |
+| scriptmedia | http www.scriptmedia.co.uk | 200, redirects to http apex, no https | Update to `http://scriptmedia.co.uk`. The "every url is https" test allows this one exception explicitly |
 | battlestarlaser | battlestarlaser.com | **503** | Remove link |
 | idaq | http idaqnetworks.com | 200, redirects to idaq.com | Update to `https://idaq.com` |
 | premiereyecare | http premier-eye-care.co.uk | 200, redirects | Update to `https://premiereyecare.co.uk` |
@@ -336,12 +365,14 @@ phase to done.
 
 **Phase 4: meta and decisions.** Tasks 9 and 10.
 
-**Phase 5: cutover.** Tasks 12, 13 and 14. This is the only phase with manual steps and they go
-at the top of that PR: Cloudflare origin, the host's compose services, the two Docker Hub secrets,
-the Docker Hub repository, the bot PRs and stale branches.
+**Phase 5: cutover.** Tasks 12, 13 and 14, in the order task 12 spells out. Two PRs: the merge of
+`vue-rebuild` (old stack still present, so the tree can be rolled back by repointing Cloudflare),
+then the deletion PR a week later. Manual steps go at the top of each: Vercel production branch
+and domains, Cloudflare origin, then the host's compose services, the two Docker Hub secrets, the
+Docker Hub repository, the bot PRs and stale branches.
 
 Rough size: phases 1 to 4 are two or three working sessions. Phase 5 is an hour plus the
-Cloudflare change.
+Cloudflare change, then a week's wait.
 
 ## Out of scope
 

@@ -23,7 +23,7 @@ Locked decisions:
 - Analytics: Cloudflare Web Analytics by default; GA4 only if I hand over a measurement ID.
 - The Ansible vault and the two Docker Hub repo secrets are dead and go at cutover.
 
-Still open: whether analytics is Cloudflare or GA4. Cloudflare is the default until I say.
+Plan approved 2026-09-03 after a Codex plan review (RETHINK verdict; findings folded in). reka-ui kept. Still open: whether analytics is Cloudflare or GA4; Cloudflare is the default until I say.
 
 **Why:** none of this is derivable from the code. Without it a session might propose SCSS,
 a redesign, moving DNS, or a different framework, all of which have been ruled out.
