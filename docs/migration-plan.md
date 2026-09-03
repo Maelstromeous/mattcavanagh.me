@@ -1,41 +1,46 @@
 # Migration plan: PHP to a static Vue 3 site on Vercel
 
-Status: **draft, awaiting approval**. Written 2026-09-03 from the review in
-[`review-2026-09.md`](review-2026-09.md). Nothing in this plan has been built yet.
+Status: **draft, decisions made, awaiting final approval**. Written 2026-09-03 from the review in
+[`review-2026-09.md`](review-2026-09.md), revised the same day after review. Nothing in this plan
+has been built yet.
 
 ## Tasks
 
 Open tasks, in the order they should run. A line is enough to recreate the task cold.
 
-1. Approve this plan (or amend it) and the decisions in "Decisions I still need to make".
-2. Scaffold the new app at the repo root: pnpm, Vite, Vue 3, TypeScript, sass, ESLint (neostandard), Vitest, `.nvmrc`, `vercel.json`, a CI workflow.
-3. Link the repo to a Vercel project and confirm a preview deploy of the scaffold builds (my side).
-4. Move the 17 cards, the two skills lists and the site links into typed data files under `src/data/`.
-5. Build the components: header, employment banner, landing hero, skills icon rows, project tabs, project grid, project card, tech icon, tooltip directive, footer.
-6. Port the LESS to SCSS: tokens, reset, typography, grid, header, cards, landing, portfolio. Reproduce the rendered site, including its accidents (body `#eee`, hidden footer).
-7. Replace the jQuery behaviours: tab switching, mobile nav toggle, hover-scroll previews, tooltips, column packing.
-8. Fix meta, SEO and accessibility: per-page title and `og:url`, `name="description"`, alt text, `aria-label`s, `rel="noopener"`, working `manifest.json`, trimmed favicon set.
-9. Write the visual acceptance check: screenshot live and local at 1280/768/375 for `/` and `/portfolio` and diff them.
-10. Apply the content decisions from the "Decisions" section once made.
-11. Cut over: point DNS at Vercel (my side), then delete `site/`, `provisioning/`, the five old workflows, and the compiled/unused assets.
-12. Post-cutover clean-up on my side: remove the two compose services and their Watchtower labels from the host, delete the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repo secrets, archive the Docker Hub repository, check whether the Ansible vault holds anything live before it is deleted, close the twelve open bot PRs and delete the `staging`, `dev`, `renovate/*` and `dependabot/*` branches.
-13. Update the README and `CLAUDE.md` for the new stack and mark this plan done.
+1. Approve this revised plan.
+2. Give me the LinkedIn profile URL (replaces the Twitter link) and confirm the analytics choice (D4).
+3. Create the `vue-rebuild` branch and scaffold the new app at the repo root: pnpm, Vite, Vue 3, TypeScript, Tailwind CSS v4, ESLint (neostandard), Vitest, `.nvmrc`, `vercel.json`, a CI workflow. Placeholder pages only.
+4. Link the repo to a Vercel project and point a preview deployment at the `vue-rebuild` branch (my side). Claude inspects the preview, or a local browser, from then on.
+5. Move the 17 cards, the two skills lists and the site links into typed data files under `src/data/` (see "Data files").
+6. Build the components: header, employment banner, landing hero, skills icon rows, project tabs (four tabs), project grid, project card, tech icon, tooltip, footer.
+7. Style with Tailwind: theme tokens from the LESS variables, then each component. Match the live site closely; minor drift from Tailwind defaults is accepted, a redesign is not.
+8. Replace the jQuery behaviours: tab switching, mobile nav toggle, hover-scroll previews, tooltips. Grid layout is CSS grid, no packing script.
+9. Fix meta, SEO and accessibility: per-page title and `og:url`, `name="description"`, alt text, `aria-label`s, `rel="noopener"`, working `manifest.json`, trimmed favicon set.
+10. Apply the content decisions: show footer on portfolio only, link the Professional tab, fix spelling, drop Twitter for LinkedIn, remove the six dead project links, update the four redirected links, give `psb` the featured border.
+11. Write the visual acceptance check: screenshot live and preview at 1280/768/375 for `/` and `/portfolio` and compare side by side.
+12. Cut over: I point Cloudflare at the Vercel deployment, then delete `site/`, `provisioning/` (vault included), the five old workflows, and the compiled/unused assets.
+13. Post-cutover clean-up on my side: remove the two compose services from the host, delete the `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repo secrets, archive the Docker Hub repository, close the twelve open bot PRs, delete the `staging`, `dev`, `renovate/*` and `dependabot/*` branches.
+14. Update the README and `CLAUDE.md` for the new stack and mark this plan done.
 
 ## Goal
 
 Replace the PHP 7 / Twig / LESS / Grunt / Docker stack with a static site that Vercel builds from
-this repo. Same two pages, same look, zero server-side code, as few dependencies as sensible. The
+this repo. Same two pages, same shape, zero server-side code, as few dependencies as sensible. The
 trigger is dependency security noise on a six-year-old stack, so "no runtime dependencies at all"
 is the bar for the deployed site.
 
 Constraints:
 
-- **No visual redesign.** The rebuild reproduces what the live site renders today. Where the code
-  and the rendered site disagree (see review), the rendered site wins unless I decide otherwise.
+- **No vast departure from the current look.** Tailwind's defaults will shift spacing, shadows
+  and type slightly; that is accepted. Layout, colours, structure and content stay recognisably
+  the same site. Where the LESS and the rendered site disagree, the decision table below says
+  which wins.
 - Vue 3, because I know it and it looks plausible that I built it.
-- SCSS, structured like `satisfactory-factories/web` and `albionroads/web/client`.
+- Tailwind CSS, because it is what I use for CSS now.
 - pnpm. Tooling matches my other Vue repos so Renovate churn is the same shape everywhere.
-- I set up the Vercel project and DNS. The repo only has to build to static output.
+- Everything is built on a branch with a Vercel preview. Nothing touches `master` until cutover.
+- I set up the Vercel project. Cloudflare stays in front of the domain and I point it at Vercel.
 
 ## Target architecture
 
@@ -62,21 +67,17 @@ If a third page ever appears this still scales; if the site ever needs client-si
 | --- | --- | --- |
 | Framework | Vue 3 + TypeScript, `<script setup>` | |
 | Build | Vite, `@vitejs/plugin-vue`, `vue-tsc` | Vercel auto-detects the Vite preset, output `dist/` |
-| Styles | `sass` (dart-sass), one `main.scss` entry, partials under `src/styles/` | Same layout as my other repos |
+| Styles | Tailwind CSS v4 via `@tailwindcss/vite`; one `src/styles/main.css` with `@import "tailwindcss"` and an `@theme` block for the site's tokens | v4 is CSS-first: no `tailwind.config.js`, no PostCSS config. v4 is not designed to sit behind Sass, so there is no SCSS in this stack; the handful of custom rules (hover-scroll, tooltip bubble) are plain CSS in the same file |
+| UI primitives | `reka-ui` for Tabs and Tooltip | Headless, accessible, Vue-native, already in `albionroads`. Gives correct ARIA and keyboard handling for free; Tailwind styles it. If pre-styled components are wanted instead, `daisyUI` is the Tailwind-native alternative, at the cost of a stronger visual shift |
 | Icons: general | `@fortawesome/fontawesome-free` from npm, self-hosted | Replaces the cdnjs FA 5.12.1 link. FA 6+ keeps `fas`/`fab` and old names as aliases; verify each of the 8 icons used |
 | Icons: tech | `devicon` from npm, self-hosted | Replaces the dead rawgit link. Class names changed between devicon versions (e.g. AWS); verify all 20 against the installed version, fall back to inline SVG where a name is gone |
 | Lint | ESLint flat config via `neostandard` + `eslint-plugin-vue` + `@vue/eslint-config-typescript` | Copy the working config from `satisfactory-factories/web` |
 | Tests | Vitest + `@vue/test-utils` | Data-file invariants and component rendering, not pixels |
-| Analytics | `@vercel/analytics` (if I want analytics at all) | The old Universal Analytics property is dead. Decision below |
+| Analytics | Cloudflare Web Analytics (D4) | Injected by the Cloudflare proxy; zero code, zero CSP change. GA4 instead if I supply a measurement ID |
 | Node | `.nvmrc` = current LTS, `engines` pinned | |
 
-No Bootstrap. The review counts the Bootstrap 3 surface at roughly 15 components and utilities
-(grid, navbar, tabs/pills, jumbotron, two buttons, tooltip, `img-responsive`, `text-center`,
-responsive show/hide). Hand-writing those in SCSS is less work than making Bootstrap 5 look like
-Bootstrap 3, and it removes 200 KB of CSS/JS from every page.
-
-No jQuery, Masonry, imagesLoaded or jquery.easing. Each behaviour has a small native
-replacement (see "Behaviours").
+No Bootstrap. No jQuery, Masonry, imagesLoaded or jquery.easing. Each behaviour has a small
+native replacement (see "Behaviours").
 
 ### Repository layout after cutover
 
@@ -92,11 +93,10 @@ replacement (see "Behaviours").
 │   ├── pages/                  landing.ts / portfolio.ts (createApp + mount)
 │   ├── components/             SiteHeader, EmploymentBanner, SiteFooter, LandingHero,
 │   │                           SkillsIcons, ProjectTabs, ProjectGrid, ProjectCard, TechIcon
-│   ├── directives/tooltip.ts
-│   ├── composables/            useColumns (packing), useHoverScroll
+│   ├── composables/            useHoverScroll
 │   ├── data/                   site.ts, projects.ts, skills.ts, techIcons.ts
-│   └── styles/                 main.scss + partials (see "SCSS structure")
-├── assets-src/portfolio-originals/   the 40 MB source screenshots, NOT deployed (decision below)
+│   └── styles/main.css         @import "tailwindcss" + @theme + the few custom rules
+├── assets-src/portfolio-originals/   the 40 MB source screenshots, NOT deployed
 ├── test/
 ├── vercel.json
 ├── .github/workflows/ci.yml
@@ -113,76 +113,80 @@ the repo root next to them; the two `package.json` files do not interact.
 
 ### Data files
 
-The 17 cards, the 25 general tech icons and the 28 AWS icons are content, not markup. They become
-typed arrays:
+Today every portfolio card is a 25-line Twig file with the same structure and different words, and
+the two skills rows are 53 hand-written `<i>` and `<img>` tags. "Typed data files" means: the
+words move into TypeScript arrays with a declared shape, and one component renders them.
+
+Concretely, `src/data/projects.ts` exports `Project[]`, `src/data/skills.ts` exports two
+`Skill[]` lists (general tech, AWS), `src/data/techIcons.ts` maps a short id like `'php'` to how
+it is drawn (a devicon class or an image path) and its tooltip, and `src/data/site.ts` holds the
+header/landing links, the CV URL, the employment banner text and the obfuscated email.
 
 ```ts
 // src/data/projects.ts (shape only)
 export interface Project {
-  id: string            // 'ps2alerts'
+  id: string            // 'ps2alerts'; also names the preview image
   title: string
-  url?: string          // absent for the 'portfolio' card
+  url?: string          // absent when the site is dead or never existed
   linkText?: string     // 'PSB Archive' overrides the default of showing the host
   github?: string
   category: string      // 'Personal / Collaborative Project'
   date: string          // 'Started: October 2014 (Ongoing)'
-  description: string   // may contain the same entities/markup as today
-  preview: string       // 'ps2alerts.jpg'
+  description: string   // HTML allowed, as today
   featured: boolean
   tabs: Array<'featured' | 'personal' | 'professional'>   // 'all' is implicit
-  tech: TechIconId[]
-  badges?: Badge[]      // star / trophy / certificate / info tooltips
+  tech: TechIconId[]    // ids resolved through techIcons.ts
+  badges?: Badge[]      // the star / trophy / certificate / info tooltips
   extraLinks?: Link[]   // the Guinness link on psb
 }
 ```
 
+What that buys:
+
+- **Adding or editing a project is a data edit**, not a template copy-paste. The typo class of
+  bugs the review found (a card in the Featured tab without the featured border, a card whose
+  image name is spelt differently from its id, two cards missing the cache-buster) cannot happen:
+  `featured` is one boolean, the image is derived from `id`, and Vite hashes assets.
+- **The compiler checks it.** A misspelt tech icon id or a missing field is a type error at build
+  time, not a broken icon in production.
+- **Tests can assert invariants** over the data: every `id` has a preview image on disk, every
+  `tech` id resolves, every `url` is `https`, tab membership is consistent.
+- **Order is explicit.** The All tab is array order; the other tabs are filters over the same
+  array, so a card can never appear in a filtered tab and not in All.
+
 The review's card table (`review-2026-09/frontend-audit.md`, section 3) is the source for every
-row, including the tab order per tab. A Vitest test asserts every referenced preview image exists
-and every tech icon id resolves.
+row, including the tab order per tab.
 
 The obfuscated email stays obfuscated: keep it as HTML entities in `site.ts`, rendered with
 `v-html` in exactly the two places it is used today.
 
-### SCSS structure
+### Styling with Tailwind
 
-```
-src/styles/
-  main.scss              @use everything below, in order
-  _tokens.scss           colours, type scale, spacing, the one breakpoint that is used
-  _reset.scss            the small subset of Bootstrap's reset the site relies on
-  _typography.scss       h1-h6 scale, 767px and 320px step-downs, .caption
-  _layout.scss           .row/.col replacement grid, .text-center, responsive show/hide
-  _buttons.scss          .btn, .btn-primary, .btn-default, .btn-lg (Bootstrap 3 look)
-  _header.scss           fixed navbar, mobile dropdown, employment banner
-  _tabs.scss             nav-tabs (md+) and nav-pills (xs/sm), centred
-  _cards.scss            card, featured variant, card-image, card-footer
-  _tooltip.scss          the CSS bubble the directive toggles
-  pages/_landing.scss    scoped to #landing this time
-  pages/_portfolio.scss  scoped to #portfolio-index
-```
-
-Rules of the port:
-
-- Tokens come from `_variables.less` plus the locally scoped values the review lists (`@green`,
-  `@red`, `@icon-multi`, `@mod`, the grey ramp). Nothing hard-coded twice.
-- Reproduce the **rendered** result, then decide separately whether to fix the accidents. That
-  means body background `#eee`, header bottom margin `0`, footer `display: none`, headings in the
-  platform sans-serif.
-- Drop the six unused breakpoint variables, the invalid nested `@media`, the dead `.container`,
-  `.double-row`, `.no-padding`, `.row-splitter`, `#all-techs` rules.
-- `darken()` becomes `color.adjust`, `round()` becomes `math.round`. Mixins replace the LESS
-  `.content;` mixin-call trick.
+- `@theme` carries the site's tokens, translated from `_variables.less` and the locally scoped
+  values the review lists: text `#5a5a5a`, background `#eee` (the rendered value, not the LESS
+  one), border `#e2e2e2`, link `#337ab7`, banner red `#fb8e8e` and green `#69bd3e`, the grey
+  ramp for shadows, base font 16px on a 24px rhythm, the one breakpoint in real use (767px). The
+  Tailwind `sm/md/lg` defaults replace the six unused LESS breakpoints.
+- Components are Vue SFCs styled with utilities. Repeated patterns (card, button, tab) live in
+  the component, not in `@apply` classes, so there is one place to change them.
+- Custom CSS is limited to what utilities cannot express: the hover-scroll transition on card
+  images and the tooltip bubble. Both go in `main.css`.
+- Heading font: Tailwind's default sans stack. The site names Ubuntu but never loads it, so
+  visitors already see a system font (D2).
+- Layout is CSS grid: three columns from `md`, two from `sm`, one below, `items-start`. Cards of
+  different heights align by row rather than packing (D11). The site predates flexbox; this is
+  the change it should have had.
 
 ### Behaviours
 
 | Today (jQuery) | Rebuild |
 | --- | --- |
-| Bootstrap tooltips on 140 `title` attributes | `v-tooltip` directive: adds a positioned `<span role="tooltip">`, CSS opacity transition, `aria-describedby`. Keeps `title` as the source. Bottom placement in the header only. |
-| Bootstrap tab switching | `ref<'all'\|'featured'\|'personal'>` in `ProjectTabs`, one `ProjectGrid` per pane with `v-show`. Full ARIA tab pattern. |
-| Masonry packing (with the "layout twice" hack) | `useColumns(cards, count)` distributes cards round-robin into 1/2/3 column arrays by viewport width. Reading order matches today's grid. This is not height-aware packing; the visual check decides whether the difference is acceptable. If not, a 40-line shortest-column pass using `ResizeObserver` replaces it. Still no library. |
-| Hover-scroll of the preview image (speed proportional to overflow) | `useHoverScroll`: on mount measure `img.height - container.height`; on hover set `transform: translateY(-overflow)` with `transition-duration` computed from the same 500 ms/100 px rule, half on leave. Skip when overflow < 40 px, as today. |
-| Bootstrap navbar collapse | `ref(open)` toggling a class; the dropdown CSS is ported from `_header.less`. |
-| GA pageview + click events | Dropped or replaced by `@vercel/analytics` (decision below). The old event code threw on every click anyway. |
+| Bootstrap tooltips on 140 `title` attributes | `reka-ui` Tooltip around each icon, styled with Tailwind, bottom placement in the header only. Keeps `title` as the source text. |
+| Bootstrap tab switching | `reka-ui` Tabs in `ProjectTabs`, four triggers (All, Featured, Personal, Professional), one `ProjectGrid` per content pane. |
+| Masonry packing (with the "layout twice" hack) | CSS grid, no script (D11). |
+| Hover-scroll of the preview image | `useHoverScroll`: on mount measure `img.height - container.height`; on hover set `transform: translateY(-overflow)` with `transition-duration` from the same 500 ms per 100 px rule, half on leave. Skip when overflow < 40 px, as today. |
+| Bootstrap navbar collapse | `ref(open)` toggling Tailwind classes. |
+| GA pageview + click events | Removed. Cloudflare Web Analytics needs no code (D4). |
 | `data-href` card click-through, `#all-techs` toggle | Dead code, not ported. |
 
 ### Meta, SEO, accessibility
@@ -208,7 +212,7 @@ h1, then h2 for card titles styled as today's h3.
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Content-Security-Policy", "value": "<tightened; see below>" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; script-src 'self'; frame-ancestors 'self'" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
@@ -225,17 +229,15 @@ h1, then h2 for card titles styled as today's h3.
 ```
 
 The live site's CSP allows six third-party hosts because of the CDN links. With everything
-self-hosted it collapses to `default-src 'self'; img-src 'self' data:; style-src 'self';
-font-src 'self'; script-src 'self'` plus the Vercel Analytics host if analytics stays. Vite
-extracts SFC styles to a stylesheet, so `'unsafe-inline'` should not be needed; the build check
-confirms it. `X-XSS-Protection` is deprecated and dropped. HSTS is set by Vercel on production
-domains; confirm with a header check after cutover rather than duplicating it.
+self-hosted it collapses to `'self'`. Vite extracts SFC styles to a stylesheet, so
+`'unsafe-inline'` should not be needed; the build check confirms it. If Cloudflare injects its
+analytics beacon, `script-src` and `connect-src` gain `https://static.cloudflareinsights.com` and
+`https://cloudflareinsights.com`. `X-XSS-Protection` is deprecated and dropped. HSTS stays with
+Cloudflare, which already sets it (D12).
 
-One redirect must survive: `www.mattcavanagh.me` 301s to the apex with the path preserved. On
-Vercel that is done by adding `www` as a domain and marking it as a redirect to the apex; no
-`vercel.json` entry needed. The two routes keep their paths, asset paths are unchanged, and
-`staging.mattcavanagh.me` no longer resolves. Anything else 404s today; Vercel's default 404 page
-replaces nginx's unless I want a styled one (out of scope).
+Routing: `/` and `/portfolio` keep their paths and asset paths are unchanged. The `www` to apex
+301 lives at Cloudflare today and stays there. `staging.mattcavanagh.me` no longer resolves.
+Anything else gets Vercel's default 404.
 
 ### CI and dependencies
 
@@ -249,61 +251,102 @@ replaces nginx's unless I want a styled one (out of scope).
 
 ### Acceptance
 
-The definition of "no visual redesign" is a diff, not an opinion:
-
 1. Screenshot live `/` and `/portfolio` at 1280, 768 and 375 px wide (puppeteer-core, as in
    `satisfactory-factories/web/testing/browser`).
-2. Screenshot the local build at the same widths.
-3. Diff. Differences must be explainable by a listed decision (font, footer, packing) or fixed.
-4. Manual: hover a card, switch tabs, open the mobile nav, tab through the header with a keyboard.
-5. Lighthouse on the preview deploy: accessibility and best-practices should be markedly better
-   than live (no dead CDN, no missing alt, no deprecated headers); performance should improve
-   with 200 KB less CSS/JS.
+2. Screenshot the Vercel preview at the same widths.
+3. Compare side by side. Differences must be Tailwind's expected drift or a listed decision.
+   Anything structural (missing element, wrong order, wrong colour family) is a bug.
+4. Manual: hover a card, switch all four tabs, open the mobile nav, tab through the header with a
+   keyboard, check tooltips announce.
+5. Lighthouse on the preview: accessibility and best-practices markedly better than live (no dead
+   CDN, no missing alt, no deprecated headers); performance better with 200 KB less CSS/JS.
 
-## Decisions I still need to make
+## Decisions
 
-Each of these changes what gets built. Default in bold is what I would do if I had to pick now.
+Made on 2026-09-03 unless marked open.
 
-| # | Decision | Options | Default |
+| # | Decision | Outcome |
+| --- | --- | --- |
+| D1 | Footer hidden site-wide by an unscoped rule | **Show it on the portfolio page. Keep it hidden on the landing page**, where the full-height hero was the reason it was hidden. |
+| D2 | Headings name Ubuntu but never load it | **System sans stack.** Not fussy as long as it reads about the same. |
+| D3 | Professional tab pane exists but is not linked | **Link it.** Four tabs. |
+| D4 | Analytics | **Cloudflare Web Analytics by default**, injected by the proxy, no code. Bot filtering is weak in every free option; if I decide GA4 is worth it I hand over a measurement ID and it is one script tag plus two CSP hosts. **Open** until I confirm. |
+| D5 | Twitter link | **Drop it. Replace with LinkedIn** in the header and the landing hero. **Open:** I need to supply the profile URL. |
+| D6 | 21 outbound links | Checked 2026-09-03; results below. **Dead links are removed and the card stays.** Redirected links are updated to their final `https` URL. |
+| D7 | Spelling errors in card copy | **Fix spelling only**, no rewording. |
+| D8 | "Last updated: 10/06/2020" and the 2020-era skills lists | **Leave alone for now.** Content refresh is a separate task. |
+| D9 | 40 MB of unreferenced originals; were projects dropped for legal reasons? | Report below. **Nothing is missing from the repo.** Originals move to `assets-src/`, out of the deploy. No history rewrite. |
+| D10 | `psb` is in Featured without the featured border | **Give it the border.** Its archive link is dead (D6), so the link goes and the card stays. |
+| D11 | Column packing | **CSS grid, no packing script.** Minor row alignment change accepted. |
+| D12 | Cloudflare currently fronts the domain | **Cloudflare stays.** I point it at the Vercel deployment myself; DNS does not move. Vercel gets the origin headers, Cloudflare keeps HSTS, TLS and the `www` redirect. SSL mode Full (strict). |
+| D13 | `provisioning/secrets.yml` vault and the two Docker Hub secrets | **All dead.** Vault deleted with `provisioning/` at cutover; I delete the two repo secrets myself afterwards. |
+
+### D6: link check results
+
+Checked with a browser user agent, following redirects, 15 s timeout.
+
+| Card / place | Link today | Result | Action |
 | --- | --- | --- | --- |
-| D1 | Footer is hidden site-wide by an unscoped rule | Keep hidden / show it | **Keep hidden** (faithful); trivial to flip later |
-| D2 | Headings name the Ubuntu font but never load it | Keep fallback / self-host Ubuntu | **Keep fallback** (what visitors see today) |
-| D3 | Professional tab pane exists but is not linked | Leave unlinked / add the tab | **Add the tab**: the content exists and is clearly intended. Small visible change |
-| D4 | Analytics | None / Vercel Analytics | **Vercel Analytics**: cookie-free, already used on my other sites, no CSP hosts beyond Vercel |
-| D5 | Twitter link | Keep as twitter.com / relabel X / drop | My call; no default |
-| D6 | 21 outbound project links, 11 plain `http://`, several years old | Check each; drop or mark dead ones | I check; the review lists them |
-| D7 | Content typos carried in descriptions | Keep verbatim / fix | **Fix** spelling only, no rewording |
-| D8 | "Last updated: 10/06/2020" and the PHP/AWS-era skills lists | Keep / refresh | Keep for the migration; refresh is a separate content task |
-| D9 | 40 MB of unreferenced source screenshots in git | Keep in repo but out of `public/` / move to LFS / delete | **Keep out of `public/`** in `assets-src/`; no history rewrite |
-| D10 | `psb` card is in the Featured tab without the featured border | Give it the border / leave | **Leave**: reproduces live |
-| D11 | Column packing | Round-robin columns / height-aware pass | Decide from the screenshot diff |
-| D12 | Cloudflare currently fronts the domain | Keep Cloudflare in front of Vercel / move DNS to Vercel | **Move DNS to Vercel**: one fewer layer, Vercel handles TLS, HSTS and the www redirect. If Cloudflare stays, SSL must be Full (strict) and its cache rules must not fight Vercel's |
-| D13 | `provisioning/secrets.yml` (Ansible vault, 938 bytes, consumer playbooks already deleted) | Delete / move contents to the private infra repo first | I open it and decide; nobody else should |
+| CV (header, landing) | Google Doc | 200 | Keep |
+| GitHub (header, landing) | github.com/Maelstromeous | 200 | Keep |
+| ps2alerts GitHub | github.com/PS2Alerts | 200 | Keep |
+| timefortea | timeforteavintage.co.uk | 200 | Keep |
+| ps2alerts | www.ps2alerts.com | 200, redirects to apex | Update to `https://ps2alerts.com` |
+| dig | http dignityofwar.com | 200, redirects to https apex | Update to `https://dignityofwar.com` |
+| mariokart | mariokart.fun | **503** | Remove link |
+| psb | psb.mattcavanagh.me | **no DNS** | Remove link ("PSB Archive" text goes too) |
+| psb Guinness | guinnessworldrecords.com article | 200 | Keep, upgrade to https |
+| nsc | nanitesystemscomic.com | **no response** | Remove link |
+| makinsonmotors | http makinsonmotors.com | 200, https | Upgrade to https |
+| scriptmedia | http www.scriptmedia.co.uk | 200, redirects to http apex, no https | Update to `http://scriptmedia.co.uk`, or remove; my call |
+| battlestarlaser | battlestarlaser.com | **503** | Remove link |
+| idaq | http idaqnetworks.com | 200, redirects to idaq.com | Update to `https://idaq.com` |
+| premiereyecare | http premier-eye-care.co.uk | 200, redirects | Update to `https://premiereyecare.co.uk` |
+| barnsleyhypno | http barnsleyhypnosiscounselling.com | 200, https | Upgrade to https |
+| meynellsfencing | http meynellsfencing.co.uk | 200, https | Upgrade to https |
+| nfc | nationalfitnessconference.co.uk | **no response** | Remove link |
+| acredula | http acredula.co.uk | 200, https | Upgrade to https |
+| kittyandco | kittyandco.me | **no response** | Remove link |
+| Twitter (header, landing) | twitter.com/Maelstromeous | not checked | Dropped (D5) |
+
+Six dead, four redirected, six plain-http sites that now serve https, four fine as they are.
+
+### D9: originals, previews and cards
+
+- `portfolio/originals/` holds 18 PNGs. `portfolio/previews/` holds 18 JPGs with the **same 18
+  names**. 17 cards exist; the 18th pair is `timefortea.png/jpg`, superseded by `timeforteav2`.
+- Git history shows **no card template was ever deleted**. The only card filename that no longer
+  exists is `tft.twig`, renamed to `timefortea.twig` in January 2017. Previews were reorganised
+  in 2017 (a `previews/JPEG/` folder was flattened) but no project disappeared.
+- So whatever was dropped for legal reasons was never committed here, or was removed before
+  this repo started in July 2016. There is nothing to recover or to worry about.
 
 ## Phases
 
-Each phase is one PR against `master` and ends with the CI green and a Vercel preview.
+Each phase is one PR into the `vue-rebuild` branch, with the Vercel preview green. `vue-rebuild`
+merges to `master` once, at cutover.
 
-**Phase 1: scaffold.** Tasks 2 and 3. Two placeholder pages, full toolchain, `vercel.json`, CI.
+**Phase 1: scaffold.** Tasks 3 and 4. Two placeholder pages, full toolchain, `vercel.json`, CI.
 Proves the build on Vercel before any content moves.
 
-**Phase 2: content and components.** Tasks 4 and 5. Everything renders, unstyled.
+**Phase 2: content and components.** Tasks 5 and 6. Everything renders, unstyled.
 
-**Phase 3: styles and behaviours.** Tasks 6, 7 and 9. The screenshot diff drives this phase to
-done.
+**Phase 3: styles and behaviours.** Tasks 7, 8 and 11. The screenshot comparison drives this
+phase to done.
 
-**Phase 4: meta and decisions.** Tasks 8 and 10.
+**Phase 4: meta and decisions.** Tasks 9 and 10.
 
-**Phase 5: cutover.** Tasks 11, 12 and 13. This is the only phase with manual steps and they go
-at the top of that PR: DNS, the host's compose services, the two Docker Hub secrets, the Docker
-Hub repository, the vault file, the bot PRs and stale branches.
+**Phase 5: cutover.** Tasks 12, 13 and 14. This is the only phase with manual steps and they go
+at the top of that PR: Cloudflare origin, the host's compose services, the two Docker Hub secrets,
+the Docker Hub repository, the bot PRs and stale branches.
 
-Rough size: phases 1 to 4 are two or three working sessions. Phase 5 is an hour plus DNS
-propagation.
+Rough size: phases 1 to 4 are two or three working sessions. Phase 5 is an hour plus the
+Cloudflare change.
 
 ## Out of scope
 
-- Any content refresh beyond D7 and D8.
-- Any design change, including "while we're here" spacing or colour tweaks.
+- Any content refresh beyond D7.
+- Any deliberate design change beyond what Tailwind's defaults bring.
 - A blog, a CMS, a contact form, or any server-side function.
 - Rewriting git history to drop the screenshot originals.
+- Moving DNS off Cloudflare.

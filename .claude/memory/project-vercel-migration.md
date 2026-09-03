@@ -1,6 +1,6 @@
 ---
 name: project-vercel-migration
-description: The site is moving off PHP to a static Vue 3 + SCSS build on Vercel; decisions locked on 2026-09-03 and what is still my call
+description: The site is moving off PHP to a static Vue 3 + Tailwind build on Vercel behind Cloudflare; decisions locked 2026-09-03 and the two still open
 metadata:
   type: project
   volatility: hot
@@ -8,23 +8,25 @@ metadata:
 ---
 
 On 2026-09-03 I decided to retire the PHP/Twig/LESS/Grunt stack and rebuild the site as a static
-Vue 3 + SCSS site built with Vite and deployed on Vercel. The review is `docs/review-2026-09.md`
-and the plan is `docs/migration-plan.md`; the plan carries the task list.
+Vue 3 site built with Vite and deployed on Vercel. The review is `docs/review-2026-09.md` and the
+plan is `docs/migration-plan.md`; the plan carries the task list and the decision table.
 
 Locked decisions:
 - Vue 3, because I know it best and it looks plausible that I built it.
-- SCSS, with the tidied CSS structured like `satisfactory-factories/web` and `albionroads`.
-- No visual redesign. The site is a first impression for many people; reproduce the look.
-- I set up the Vercel project myself. The repo only needs to build to static output.
-- The trigger for all of this was dependency security noise on a six-year-old stack, so the goal
-  is zero runtime dependencies on the server and as few build dependencies as sensible.
+- Tailwind CSS v4, which I use everywhere now, in place of Bootstrap 3 and the LESS. I accept
+  minor visual drift from Tailwind's components; I do not accept a redesign.
+- Build happens on a branch. I wire that branch to a Vercel preview so Claude can inspect it.
+- Cloudflare stays in front of the domain and I point it at Vercel myself. DNS does not move.
+- Footer shows on the portfolio page and stays hidden on the landing page. Professional tab is
+  linked. Spelling in card copy is fixed; wording and the 2020 skills lists are left alone.
+- Twitter link is dropped, replaced by LinkedIn. Dead project links are removed (card stays).
+- Analytics: Cloudflare Web Analytics by default; GA4 only if I hand over a measurement ID.
+- The Ansible vault and the two Docker Hub repo secrets are dead and go at cutover.
 
-Still my call, not Claude's: what to do with dead outbound links, whether the Twitter link
-becomes X or goes, whether analytics returns (the old Universal Analytics property is dead), and
-the "Last updated" content refresh.
+Still open: my LinkedIn URL, and whether analytics is Cloudflare or GA4.
 
-**Why:** the constraints above are not derivable from the code. Without them a session might
-propose a redesign, a different framework, or a backend, all of which have been ruled out.
+**Why:** none of this is derivable from the code. Without it a session might propose SCSS,
+a redesign, moving DNS, or a different framework, all of which have been ruled out.
 
 **How to apply:** start from the plan's task list, not from re-reading the old PHP. Do not begin
 the front-end migration until the plan is approved. See [[legacy-stack-do-not-install]].

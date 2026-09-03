@@ -48,11 +48,11 @@ the `deploy-production.yml` workflow build and ship it.
 
 ## Conventions
 
-- **No visual redesign.** The rebuild reproduces the current look; the CSS gets tidied, not
-  restyled. Compare against the live site, not against taste.
+- **No vast departure from the current look.** The rebuild uses Tailwind CSS, so minor visual
+  drift is accepted; a redesign is not. Compare against the live site, not against taste.
 - Package manager for the new stack is `pnpm`. Tooling mirrors my other Vue repos
   (`satisfactory-factories/web`, `dignityofwar/albionroads/web/client`): Vite, vue-tsc, ESLint via
-  neostandard, `sass`, Vitest.
+  neostandard, Tailwind, Vitest.
 - Public repo: no infrastructure addresses, hostnames or webhook URLs anywhere in the repo, PR
   bodies included. `provisioning/secrets.yml` is an Ansible vault; never open it.
 - Copy on the site is public-facing: no em dashes, no "it's not X, it's Y" phrasing.
