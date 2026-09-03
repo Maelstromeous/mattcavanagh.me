@@ -5,3 +5,4 @@
 
 Note: this memory lives in the repo at `.claude/memory/` (wired via `autoMemoryDirectory` in
 `.claude/settings.json`) so it is shared via git across machines.
+- [TypeScript 6 pin](typescript-6-pin.md) — vue-tsc and typescript-eslint reject TS 7; pnpm 11 needs `allowBuilds` for vue-demi

@@ -6,3 +6,7 @@ node_modules
 # Claude Code local settings (memories in .claude/memory ARE committed)
 .claude/settings.local.json
 .claude/worktrees/
+
+# New Vue build
+dist
+coverage

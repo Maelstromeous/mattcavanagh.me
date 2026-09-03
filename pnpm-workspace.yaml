@@ -1,0 +1,3 @@
+allowBuilds:
+  # vue-demi postinstall only links the Vue 3 build; harmless.
+  vue-demi: true

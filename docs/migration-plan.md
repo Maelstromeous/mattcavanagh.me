@@ -11,7 +11,7 @@ Open tasks, in the order they should run. A line is enough to recreate the task 
 
 1. ~~Approve this revised plan.~~ Done 2026-09-03.
 2. Confirm the analytics choice (D4). Cloudflare Web Analytics is the default until then.
-3. Create the `vue-rebuild` branch and scaffold the new app at the repo root: pnpm, Vite, Vue 3, TypeScript, Tailwind CSS v4, ESLint (neostandard), Vitest, `.nvmrc`, `vercel.json`, a CI workflow. Placeholder pages only.
+3. ~~Create the `vue-rebuild` branch and scaffold the new app at the repo root: pnpm, Vite, Vue 3, TypeScript, Tailwind CSS v4, ESLint (neostandard), Vitest, `.nvmrc`, `vercel.json`, a CI workflow. Placeholder pages only.~~ Done 2026-09-03, Phase 1 PR.
 4. Link the repo to a Vercel project and point a preview deployment at the `vue-rebuild` branch (my side). Claude inspects the preview, or a local browser, from then on.
 5. Move the 17 cards, the two skills lists and the site links into typed data files under `src/data/` (see "Data files").
 6. Build the components: header, employment banner, landing hero, skills icon rows, project tabs (four tabs), project grid, project card, tech icon, tooltip, footer.

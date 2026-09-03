@@ -39,6 +39,20 @@ Config comes from three env vars: `ENVIRONMENT`, `BASE_URL`, `VERSION` (git SHA,
 cache-buster `?v=`). Templates receive `base_url`, `asset_url`, `version`, `current_path` and an
 HTML-entity-obfuscated `email` as Twig globals.
 
+## Commands (new stack, repo root)
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm install` | Install; pnpm 11, TypeScript pinned to 6 (see memory) |
+| `pnpm dev` | Vite dev server, `/` and `/portfolio.html` |
+| `pnpm lint-check` / `pnpm lint` | ESLint (neostandard + Vue + TS) |
+| `pnpm exec vue-tsc --noEmit` | Typecheck |
+| `pnpm exec vitest run` | Tests in `test/` |
+| `pnpm build` | Typecheck then Vite build to `dist/` (hashed output under `dist/_app/`) |
+
+Two HTML entries (`index.html`, `portfolio.html`), no router. Tailwind v4 via `src/styles/main.css`.
+Stable-URL images live in `public/assets/img/`; content images are imported from `src/assets/img/`.
+
 ## Commands (legacy)
 
 There is no local dev loop worth setting up for the old stack. Do not run `composer install` or
