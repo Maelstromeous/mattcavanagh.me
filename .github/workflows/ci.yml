@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [master, vue-rebuild]
+  pull_request:
+
+jobs:
+  build:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint-check
+      - run: pnpm typecheck
+      - run: pnpm exec vitest run
+      - run: pnpm build

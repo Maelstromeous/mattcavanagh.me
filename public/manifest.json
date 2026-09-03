@@ -1,0 +1,11 @@
+{
+  "name": "Matt Cavanagh",
+  "short_name": "Matt Cavanagh",
+  "icons": [
+    { "src": "/assets/img/android-icon-192x192.png", "sizes": "192x192", "type": "image/png" }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#eeeeee",
+  "display": "browser",
+  "start_url": "/"
+}

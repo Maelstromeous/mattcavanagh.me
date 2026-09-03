@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Site tokens, carried over from the old LESS variables. Values are what the live site renders. */
+@theme {
+  --color-body: #5a5a5a;
+  --color-page: #eeeeee;
+  --color-line: #e2e2e2;
+  --color-link: #337ab7;
+  --color-link-hover: #1d4567;
+  --color-caption: #b3b2b2;
+  --color-banner-busy: #fb8e8e;
+  --color-banner-free: #69bd3e;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+}
+
+@layer base {
+  body {
+    @apply bg-page text-body font-sans text-base;
+  }
+}
