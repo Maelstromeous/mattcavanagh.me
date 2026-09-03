@@ -1,6 +1,6 @@
 ---
 name: project-vercel-migration
-description: The site is moving off PHP to a static Vue 3 + Tailwind build on Vercel behind Cloudflare; decisions locked 2026-09-03 and the two still open
+description: The site is moving off PHP to a static Vue 3 + Tailwind build on Vercel behind Cloudflare; decisions locked 2026-09-03, only analytics still open
 metadata:
   type: project
   volatility: hot
@@ -19,11 +19,11 @@ Locked decisions:
 - Cloudflare stays in front of the domain and I point it at Vercel myself. DNS does not move.
 - Footer shows on the portfolio page and stays hidden on the landing page. Professional tab is
   linked. Spelling in card copy is fixed; wording and the 2020 skills lists are left alone.
-- Twitter link is dropped, replaced by LinkedIn. Dead project links are removed (card stays).
+- Twitter link is dropped, replaced by LinkedIn (`https://www.linkedin.com/in/mattcavanagh`). Dead project links are removed (card stays).
 - Analytics: Cloudflare Web Analytics by default; GA4 only if I hand over a measurement ID.
 - The Ansible vault and the two Docker Hub repo secrets are dead and go at cutover.
 
-Still open: my LinkedIn URL, and whether analytics is Cloudflare or GA4.
+Still open: whether analytics is Cloudflare or GA4. Cloudflare is the default until I say.
 
 **Why:** none of this is derivable from the code. Without it a session might propose SCSS,
 a redesign, moving DNS, or a different framework, all of which have been ruled out.

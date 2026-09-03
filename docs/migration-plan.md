@@ -9,7 +9,7 @@ has been built yet.
 Open tasks, in the order they should run. A line is enough to recreate the task cold.
 
 1. Approve this revised plan.
-2. Give me the LinkedIn profile URL (replaces the Twitter link) and confirm the analytics choice (D4).
+2. Confirm the analytics choice (D4). Cloudflare Web Analytics is the default until then.
 3. Create the `vue-rebuild` branch and scaffold the new app at the repo root: pnpm, Vite, Vue 3, TypeScript, Tailwind CSS v4, ESLint (neostandard), Vitest, `.nvmrc`, `vercel.json`, a CI workflow. Placeholder pages only.
 4. Link the repo to a Vercel project and point a preview deployment at the `vue-rebuild` branch (my side). Claude inspects the preview, or a local browser, from then on.
 5. Move the 17 cards, the two skills lists and the site links into typed data files under `src/data/` (see "Data files").
@@ -271,7 +271,7 @@ Made on 2026-09-03 unless marked open.
 | D2 | Headings name Ubuntu but never load it | **System sans stack.** Not fussy as long as it reads about the same. |
 | D3 | Professional tab pane exists but is not linked | **Link it.** Four tabs. |
 | D4 | Analytics | **Cloudflare Web Analytics by default**, injected by the proxy, no code. Bot filtering is weak in every free option; if I decide GA4 is worth it I hand over a measurement ID and it is one script tag plus two CSP hosts. **Open** until I confirm. |
-| D5 | Twitter link | **Drop it. Replace with LinkedIn** in the header and the landing hero. **Open:** I need to supply the profile URL. |
+| D5 | Twitter link | **Drop it. Replace with LinkedIn** (`https://www.linkedin.com/in/mattcavanagh`) in the header and the landing hero. |
 | D6 | 21 outbound links | Checked 2026-09-03; results below. **Dead links are removed and the card stays.** Redirected links are updated to their final `https` URL. |
 | D7 | Spelling errors in card copy | **Fix spelling only**, no rewording. |
 | D8 | "Last updated: 10/06/2020" and the 2020-era skills lists | **Leave alone for now.** Content refresh is a separate task. |
