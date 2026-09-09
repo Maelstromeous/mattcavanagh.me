@@ -4,7 +4,7 @@
   "description": "",
   "main": "Gruntfile.js",
   "dependencies": {
-    "grunt": "^1.5.3"
+    "grunt": "^1.6.3"
   },
   "devDependencies": {
     "grunt-contrib-less": "^2.1.0",
