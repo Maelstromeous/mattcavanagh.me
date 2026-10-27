@@ -1,4 +1,2 @@
-vendor
-!site/public/assets/js/vendor
 node_modules
 /.idea/
